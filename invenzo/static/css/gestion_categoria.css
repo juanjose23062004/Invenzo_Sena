@@ -1,0 +1,109 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 20px;
+}
+
+.contenedor {
+    max-width: 1200px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.barra-superior {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.busqueda input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 220px;
+}
+
+.acciones button {
+    margin-left: 10px;
+    padding: 8px 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.acciones button:hover {
+    background-color: #0056b3;
+}
+
+.tabla-categorias {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.tabla-categorias th, .tabla-categorias td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.tabla-categorias th {
+    background-color: #f0f0f0;
+    color: #555;
+}
+
+.tabla-categorias td {
+    vertical-align: middle;
+}
+
+.tabla-categorias td a {
+    margin-right: 8px;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+#form-nueva {
+    margin-top: 30px;
+    background-color: #eef;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+#form-nueva h2 {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #218838;
+}

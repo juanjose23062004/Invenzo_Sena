@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Almacenes{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'lista_almacen.css' %}">
+<div class="header-flex">
+    <h2>Almacenes</h2>
+
+    <button class="btn-primario" onclick="openModal()">
+        + Agregar Almacén
+    </button>
+</div>
+
+<table class="tabla">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Capacidad</th>
+            <th>Disponible</th>
+            <th>Tipo</th>
+            <!-- <th>Nivel de Seguridad</th> -->
+            <th>Aciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for a in almacenes %}
+        <tr>
+            <td>{{ a.Nombre }}</td>
+            <td>{{ a.Capacidad }}</td>
+            <td>{{ a.disponible }}</td>
+            <td>{{ a.Tipo }}</td>
+            <!-- <td>{{ a.Nivel_seguridad }}</td> -->
+            <td class="actions-cell">
+                <!-- EDITAR -->
+                <a href="{% url 'invenzo:editar_almacen' a.id %}" class="action-icon edit-icon">
+                    <i data-lucide="pencil"></i>
+                </a>
+                <!-- ELIMINAR - abre modal -->
+                <label for="modal-delete-{{ a.id }}" class="action-icon delete-icon">
+                    <i data-lucide="trash"></i>
+                </label>
+                <!-- TOGGLE DEL MODAL -->
+                <input type="checkbox" id="modal-delete-{{ a.id }}" class="modal-toggle">
+                <!-- MODAL -->
+                <div class="modal-backdrop">
+                    <div class="modal-window">
+                    
+                        <label for="modal-delete-{{ a.id }}" class="modal-close">&times;</label>
+
+                        <h2>Confirmar eliminación</h2>
+                        <p>
+                            ¿Estás seguro de que deseas eliminar el almacén 
+                            <b>{{ a.Nombre }}</b>?
+                        </p>
+
+                        <div class="modal-actions">
+
+                            <label for="modal-delete-{{ a.id }}" class="btn-cancel">
+                                Cancelar
+                            </label>
+
+                            <form method="POST" action="{% url 'invenzo:eliminar_almacen' a.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-confirm">Eliminar</button>
+                            </form>
+                        
+                        </div>
+                    
+                    </div>
+               </div>
+
+            </td>
+            
+        </tr>
+
+
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- MODAL CREAR ALMACÉN -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+
+        <h3>Registrar Almacén</h3>
+
+        <form method="POST" action="{% url 'invenzo:crear_almacen' %}">
+            {% csrf_token %}
+
+            <label>Nombre</label>
+            <input type="text" name="Nombre" required>
+
+            <label>Capacidad</label>
+            <input type="number" name="Capacidad" min="0" required>
+
+            <label>Categoría (Tipo)</label>
+            <select name="Tipo" required>
+                <option value="">Seleccione una categoría</option>
+                {% for c in categorias %}
+                    <option value="{{ c.id }}">{{ c.nombre }}</option>
+                {% endfor %}
+            </select>
+<!-- 
+            <label>Nivel de seguridad</label>
+            <input type="text" name="Nivel_seguridad"> -->
+
+            <button type="submit" class="btn-primario" style="margin-top: 20px;">
+                Guardar
+            </button>
+        </form>
+    </div>
+</div>
+
+
+
+
+<script>
+function openModal() {
+    document.getElementById("modal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,148 @@
+.header-section h1 {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.header-section p {
+    color: #6b7280;
+}
+
+/* ===== CARDS ===== */
+.stats-cards {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.stat-card {
+    width: 250px;
+    padding: 20px;
+    border-radius: 14px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.stat-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #374151;
+}
+
+.stat-card .count {
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.stat-card.red .count { color: #dc2626; }
+.stat-card.yellow .count { color: #ca8a04; }
+.stat-card.blue .price { color: #2563eb; }
+
+/* ===== FILTER BAR ===== */
+.filters-bar {
+    background: #f9fafb;
+    padding: 18px;
+    border-radius: 14px;
+    margin-top: 25px;
+}
+
+.filters-form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    width: 260px;
+}
+
+.search-box input {
+    outline: none;
+    border: none;
+    width: 100%;
+}
+
+/* ===== TABS ===== */
+.tabs {
+    display: flex;
+    gap: 20px;
+    margin-top: 18px;
+}
+
+.tab {
+    color: #6b7280;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.tab.active {
+    font-weight: bold;
+    color: #2563eb;
+}
+
+/* ===== TABLE ===== */
+.alerts-table table {
+    margin-top: 20px;
+    width: 100%;
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    border-collapse: collapse;
+}
+
+.alerts-table th {
+    background: #f3f4f6;
+    padding: 14px;
+    text-align: left;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.alerts-table td {
+    padding: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+/* TAGS */
+.tag {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.tag.critico { background: #fee2e2; color: #b91c1c; }
+.tag.bajo { background: #fef9c3; color: #854d0e; }
+.tag.ok { background: #dcfce7; color: #166534; }
+
+/* STATUS */
+.status {
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.status.red { background: #fee2e2; color: #991b1b; }
+.status.yellow { background: #fef3c7; color: #b45309; }
+.status.green { background: #dcfce7; color: #166534; }
+
+/* BUTTON REPONER */
+.btn-reponer {
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: #10b981;
+    color: white;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}

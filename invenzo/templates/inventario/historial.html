@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Historial de Inventario{% endblock %}
+{% block header_title %}Historial de Inventario{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/historial.css' %}">
+
+<section class="header-section">
+    <h1>Historial de Inventario</h1>
+    <p>Registro completo de movimientos de inventario</p>
+</section>
+
+<section class="filters-bar">
+
+    <!-- SEARCH -->
+    <form method="GET" class="filters-form">
+
+        <div class="search-box">
+            <i data-lucide="search"></i>
+            <input type="text" name="search" placeholder="Buscar por producto, Codigo o notas..."
+                value="{{ query.search }}">
+        </div>
+
+        <!-- TIPO -->
+        <select name="tipo" class="filter-select">
+            <option value="">Todos</option>
+            <option value="entrada" {% if query.tipo == "entrada" %}selected{% endif %}>Entrada</option>
+            <option value="salida" {% if query.tipo == "salida" %}selected{% endif %}>Salida</option>
+        </select>
+
+        <!-- CATEGORIA -->
+        <select name="categoria" class="filter-select">
+            <option value="">Todas</option>
+            {% for c in categorias %}
+            <option value="{{ c.nombre }}" {% if query.categoria == c.nombre %}selected{% endif %}>{{ c.nombre }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- FECHA -->
+        <input type="date" name="fecha" class="date-input" value="{{ query.fecha }}">
+
+        <button type="submit" class="btn-primary small">
+            <i data-lucide="filter"></i> Filtrar
+        </button>
+
+        <a href="{% url 'invenzo:historial' %}" class="btn-secondary small">
+            <i data-lucide="rotate-ccw"></i> Limpiar
+        </a>
+    </form>
+
+</section>
+
+<section class="history-table">
+    <table>
+        <thead>
+            <tr>
+                <th>PRODUCTO</th>
+                <th>CODIGO</th>
+                <th>TIPO</th>
+                <th>CANTIDAD</th>
+                <th>FECHA</th>
+                <th>USUARIO</th>
+                <th>CATEGORÍA</th>
+                <th>NOTAS</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for m in movimientos %}
+        <tr>
+
+            <td class="col-product">
+                <b>{{ m.producto.nombre }}</b>
+            </td>
+
+            <td>{{ m.producto.codigo }}</td>
+
+            <td>
+                {% if m.tipo_movimiento == "entrada" %}
+                    <span class="tag entrada">
+                        <i data-lucide="arrow-down-left"></i> Entrada
+                    </span>
+                {% else %}
+                    <span class="tag salida">
+                        <i data-lucide="arrow-up-right"></i> Salida
+                    </span>
+                {% endif %}
+            </td>
+
+            <td>{{ m.cantidad }}</td>
+
+            <td>{{ m.fecha_movimiento|date:"Y-m-d H:i" }}</td>
+
+            <td>{{ m.usuario.nombre }}</td>
+
+            <td>{{ m.producto.categoria.nombre }}</td>
+
+            <td>{{ m.observacion|default:"—" }}</td>
+
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="8" class="empty">No se encontraron movimientos.</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<!-- PAGINATION -->
+<section class="pagination">
+    <span>
+        Mostrando {{ page_obj.start_index }} a {{ page_obj.end_index }} de {{ paginator.count }} movimientos
+    </span>
+
+    <div class="pages">
+        {% for page in paginator.page_range %}
+            <a href="?page={{ page }}"
+               class="page-btn {% if page == page_obj.number %}active{% endif %}">
+               {{ page }}
+            </a>
+        {% endfor %}
+    </div>
+</section>
+
+<script>
+    lucide.createIcons()
+</script>
+
+{% endblock %}

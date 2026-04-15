@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión – Invenzo</title>
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="left">
+        <img src="{% static 'Logo.jpg' %}" alt="Logo">
+    </div>
+
+    <div class="right">
+        <div class="login-box">
+            <h1>Invenzo</h1>
+            <h2>Iniciar Sesión</h2>
+            <p>Accede a tu cuenta y gestiona tu inventario</p>
+
+            <form method="post">
+                {% csrf_token %}
+                
+                <label for="email">Correo electrónico *</label>
+                <div class="input-icon">
+                    <i data-lucide="mail"></i>
+                    <input type="email" name="email" placeholder="correo@ejemplo.com" required>
+                </div>
+
+                <label for="password">Contraseña *</label>
+                <div class="input-icon">
+                    <i data-lucide="lock"></i>
+                    <input type="password" name="contraseña" placeholder="Contraseña" required>
+                </div>
+
+                {% if error %}
+                    <p class="error">{{ error }}</p>
+                {% endif %}
+
+                <button type="submit">Entrar</button>
+            </form>
+
+            <div class="separador">— O iniciar sesión con —</div>
+
+            <div class="social-login">
+                <button>
+                    <i data-lucide="circle-user-round"></i>
+                    <p>Google</p>
+                </button>
+
+                <button>
+                    <i data-lucide="badge-check"></i>
+                    <p>Microsoft</p>
+                </button>
+            </div>
+
+            <div class="register">
+                ¿No tienes cuenta? <a href="{% url 'invenzo:registrar_usuario' %}">Regístrate</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    lucide.createIcons();
+</script>
+
+</body>
+</html>

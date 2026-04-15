@@ -1,0 +1,145 @@
+/* HEADER */
+.header-section h1 {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.header-section p {
+    color: #6b7280;
+    margin-top: -5px;
+}
+
+/* FILTER BAR */
+.filters-bar {
+    background: #f9fafb;
+    padding: 18px;
+    border-radius: 14px;
+    margin-top: 20px;
+}
+
+.filters-form {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    width: 260px;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    width: 100%;
+}
+
+.filter-select,
+.date-input {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    background: white;
+}
+
+/* BUTTONS */
+.btn-primary.small,
+.btn-secondary.small {
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.btn-primary.small {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-secondary.small {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+/* TABLE */
+.history-table table {
+    width: 100%;
+    background: white;
+    margin-top: 20px;
+    border-radius: 14px;
+    border-collapse: collapse;
+    overflow: hidden;
+}
+
+.history-table th {
+    text-align: left;
+    background: #f3f4f6;
+    padding: 14px;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.history-table td {
+    padding: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+.col-product {
+    font-weight: 600;
+}
+
+/* TAGS */
+.tag {
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 14px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.tag.entrada {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.tag.salida {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+/* EMPTY */
+.empty {
+    padding: 20px;
+    text-align: center;
+    color: #888;
+}
+
+/* PAGINATION */
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page-btn {
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #e5e7eb;
+    margin-left: 5px;
+}
+
+.page-btn.active {
+    background: #2563eb;
+    color: white;
+}

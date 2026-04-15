@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gestión de Productos{% endblock %}
+{% block header_title %}Gestión de Productos{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/gestor_productos.css' %}">
+<link rel="stylesheet" href="{% static 'css/modal.css' %}">
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<section class="header-section">
+    <h1>Gestión de Productos</h1>
+    <p>Administra tu catálogo de productos</p>
+
+    <!-- BOTÓN QUE ABRE EL MODAL -->
+    <label for="modal-categoria" class="btn-primary">
+        <i class="fas fa-plus"></i> Nueva Categoría
+    </label>
+</section>
+
+<section class="filters-section">
+    <form method="GET" action="">
+        <div class="search-input">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Buscar categorías..." name="search" value="{{ request.GET.search|default:'' }}">
+        </div>
+
+        <div class="dropdown">
+            <button class="dropdown-button">
+                {% if request.GET.category %}
+                    {{ request.GET.category }}
+                {% else %}
+                    Todas
+                {% endif %}
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </div>
+
+        <div class="action-buttons">
+            <button type="submit" class="btn-secondary">
+                <i class="fas fa-filter"></i> Filtrar
+            </button>
+
+            <a href="{% url 'invenzo:exportar_productos' %}" class="btn-secondary export-btn">
+                <i class="fas fa-file-export"></i> Exportar
+            </a>
+        </div>
+    </form>
+</section>
+
+<!-- ====================== -->
+<!--  SECCIÓN DE LOS TABS   -->
+<!-- ====================== -->
+<section class="status-tabs">
+    <button class="tab active">
+        Todos <span class="badge">{{ productos.count }}</span>
+    </button>
+
+    <button class="tab warning">
+        <i class="fas fa-exclamation-triangle"></i>
+        Stock Bajo <span class="badge">{{ bajo_stock }}</span>
+    </button>
+
+    <button class="tab danger">
+        Sin Stock <span class="badge">{{ sin_stock }}</span>
+    </button>
+</section>
+
+<section class="products-table">
+    <table>
+        <thead>
+            <tr>
+                <th>PRODUCTO</th>
+                <th>CODIGO</th>
+                <th>CATEGORÍA</th>
+                <th>PRECIO</th>
+                <th>STOCK</th>
+                <th>ESTADO</th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+
+            {% if producto.cantidad == 0 %}
+                <tr class="out-of-stock-row">
+            {% elif producto.cantidad <= producto.stock_minimo %}
+                <tr class="low-stock-row">
+            {% else %}
+                <tr class="in-stock-row">
+            {% endif %}
+
+                <td class="product-cell">
+                    <img src="{% static 'img/default-product.png' %}" alt="{{ producto.nombre }}">
+                    <span>{{ producto.nombre }}</span>
+                </td>
+
+                <td>{{ producto.codigo }}</td>
+                <td>{{ producto.categoria.nombre }}</td>
+                <td>${{ producto.precio|floatformat:2 }}</td>
+
+                <td>
+                    {{ producto.cantidad }}
+                    {% if producto.cantidad <= producto.stock_minimo %}
+                        <i class="fas fa-exclamation-triangle"></i>
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if producto.cantidad == 0 %}
+                        <span class="status-tag out-of-stock">Sin Stock</span>
+                    {% elif producto.cantidad <= producto.stock_minimo %}
+                        <span class="status-tag low-stock">Stock Bajo</span>
+                    {% else %}
+                        <span class="status-tag in-stock">En Stock</span>
+                    {% endif %}
+                </td>
+
+                <td class="actions-cell">
+
+                    <a href="{% url 'invenzo:editar_producto' producto.id %}" class="action-icon edit-icon">
+                        <i data-lucide="pencil"></i>
+                    </a>
+
+                    <label for="modal-delete-{{ producto.id }}" class="action-icon delete-icon">
+                        <i data-lucide="trash"></i>
+                    </label>
+
+                    <input type="checkbox" id="modal-delete-{{ producto.id }}" class="modal-toggle">
+
+                    <div class="modal-backdrop">
+                        <div class="modal-window">
+
+                            <label for="modal-delete-{{ producto.id }}" class="modal-close">&times;</label>
+
+                            <h2>Confirmar eliminación</h2>
+                            <p>¿Estás seguro de que deseas eliminar el producto <b>{{ producto.nombre }}</b>?</p>
+
+                            <div class="modal-actions">
+                                <label for="modal-delete-{{ producto.id }}" class="btn-cancel">Cancelar</label>
+
+                                <form method="POST" action="{% url 'invenzo:eliminar_producto' producto.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-confirm">Eliminar</button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+
+            {% empty %}
+            <tr>
+                <td colspan="7" style="text-align: center; padding: 20px;">
+                    No se encontraron productos en el catálogo.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<section class="pagination">
+    {% if is_paginated %}
+        <span>
+            Mostrando {{ page_obj.start_index }} a {{ page_obj.end_index }} de {{ page_obj.paginator.count }} productos
+        </span>
+
+        <div class="pages">
+            {% for i in paginator.page_range %}
+                <a class="page-number {% if page_obj.number == i %}active{% endif %}"
+                href="?page={{ i }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                    {{ i }}
+                </a>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <span>Mostrando {{ productos.count }} productos</span>
+    {% endif %}
+</section>
+
+<!-- ====================== -->
+<!-- MODAL NUEVA CATEGORÍA -->
+<!-- ====================== -->
+<input type="checkbox" id="modal-categoria" class="modal-toggle" />
+
+<div class="modal">
+    <div class="modal-box">
+        <!-- BOTÓN CERRAR -->
+        <label for="modal-categoria" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">&times;</label>
+
+        <h2 class="text-xl font-bold mb-4">Nueva Categoría</h2>
+
+        <form method="POST" action="{% url 'invenzo:crear_categoria' %}">
+            {% csrf_token %}
+
+            <label class="block font-semibold">Nombre de Categoría</label>
+            <input type="text" name="nombre" required class="input input-bordered w-full mb-3">
+
+            <label class="block font-semibold">Descripción</label>
+            <textarea name="descripcion" rows="3" class="textarea textarea-bordered w-full mb-4"></textarea>
+
+            <div class="modal-action">
+                <label for="modal-categoria" class="btn btn-outline">Cancelar</label>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    lucide.createIcons();
+</script>
+
+{% endblock %}

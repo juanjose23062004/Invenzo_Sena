@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Configuración de Perfil{% endblock %}
+{% block header_title %}Mi Perfil{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/configuracion.css' %}">
+
+<div class="config-wrapper">
+
+    <!-- FOTO DE PERFIL -->
+    <div class="perfil-card">
+        <h3>Foto de Perfil</h3>
+
+        <div class="perfil-foto">
+            {% if usuario.foto %}
+                <img src="{{ usuario.foto.url }}" alt="Foto de perfil" class="perfil-avatar">
+            {% else %}
+                <!-- Icono Lucide cuando no hay foto -->
+                <i data-lucide="user-circle" class="perfil-avatar-icon" style="font-size:120px; color:#0077B6;"></i>
+            {% endif %}
+        </div>
+
+        <!-- Formulario para actualizar la foto -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="foto" class="file-input">
+            <button type="submit" class="btn-primary">Actualizar Foto</button>
+        </form>
+
+        <!-- Formulario para eliminar la foto -->
+        {% if usuario.foto %}
+        <form method="POST" action="{% url 'invenzo:eliminar_foto' usuario.id %}" style="margin-top:10px;">
+            {% csrf_token %}
+            <button type="submit" class="btn-primary" style="background-color:#DC2626; border-color:#DC2626;">
+                Eliminar Foto
+            </button>
+        </form>
+        {% endif %}
+    </div>
+
+
+    <!-- INFORMACIÓN PERSONAL -->
+    <div class="perfil-card">
+        <h3>Información Personal</h3>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label>Nombre</label>
+            <input type="text" name="nombre" value="{{ usuario.nombre }}" required>
+
+            <label>Email</label>
+            <input type="email" name="email" value="{{ usuario.email }}" required>
+
+            <label>Nueva Contraseña (opcional)</label>
+            <input type="password" name="password" placeholder="••••••">
+
+            <button type="submit" class="btn-primary">Guardar Cambios</button>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

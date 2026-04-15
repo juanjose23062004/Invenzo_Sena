@@ -1,0 +1,149 @@
+* {
+   margin: 0;
+   padding: 0;
+   font-family: 'Inter', sans-serif;
+}
+body {
+   margin: 0;
+   padding-top: 15vh;
+   background: linear-gradient(to right, #ffffff, #9bb8ea);
+   color: #333;
+}
+
+.registro-container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+}
+
+.registro-box {
+   background: #fff;
+   padding: 50px;
+   border-radius: 12px;
+   width: 100%;
+   max-width: 400px;
+   box-shadow: 0 0 20px rgba(0,0,0,0.2);
+   text-align: center;
+}
+
+h1 {
+   margin-bottom: 5px;
+   font-size: 28px;
+   color: #4967d2;
+}
+
+.subtitulo {
+   font-size: 14px;
+   color: #666;
+   margin-bottom: 20px;
+}
+
+h2 {
+   font-size: 22px;
+   margin-bottom: 10px;
+}
+
+.descripcion {
+   font-size: 14px;
+   color: #777;
+   margin-bottom: 20px;
+}
+
+input {
+   width: 91%;
+   padding: 15px;
+   margin-bottom: 15px;
+   border: 1px solid #ccc;
+   border-radius: 6px;
+}
+
+.input-icono{
+   display: flex;
+   flex-direction: row;
+   align-items:  center;
+   justify-content: center;
+   
+}
+.input-icono select{
+   margin-left: 10px;
+}
+.checkbox {
+   display: flex;
+   flex-direction:row ;
+   align-items: center;
+   justify-content: center;
+   font-size: 13px;
+   text-align: left;
+   margin-bottom: 20px;
+}
+.checkbox .acepto{
+   width: 20px;
+   height: 20px;
+   /* margin-right: 10px; */
+   margin: 0;
+}
+.checkbox p{
+   margin-left: 10px;
+}
+
+.btn-principal {
+   width: 100%;
+   padding: 12px;
+   background-color: #4967d2;
+   color: white;
+   border: none;
+   border-radius: 6px;
+   cursor: pointer;
+   font-weight: bold;
+}
+
+.btn-principal:hover {
+   background-color: #4967d2;
+}
+
+.separador {
+   margin: 20px 0;
+   font-size: 13px;
+   color: #999;
+}
+.social-login {
+   display: flex;
+   margin: 5px;
+   justify-content: space-between;
+}
+.social-login button {
+   width: 50%;
+   margin: 0 5px;
+   padding: 5px;
+   border: 1px solid #ccc;
+   background: white;
+   border-radius: 8px;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+.social-login img {
+   width: 20px;
+   margin-right: px;
+}
+
+.login-link {
+   margin-top: 20px;
+   font-size: 14px;
+}
+
+.login-link a {
+   color:#4967d2;
+   text-decoration: none;
+   font-weight: bold;
+}
+
+.errores {
+   margin-top: 15px;
+   padding: 0;
+   list-style: none;
+   color: red;
+   font-size: 13px;
+}

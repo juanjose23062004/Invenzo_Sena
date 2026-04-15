@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Editar Almacén{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'editar_almacen.css' %}">
+
+<div class="container-editar">
+
+    <div class="card-editar">
+        <h2>Editar Almacén</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Nombre</label>
+            <input type="text" name="Nombre" value="{{ almacen.Nombre }}" required>
+
+            <label>Capacidad</label>
+            <input type="number" min="0" name="Capacidad" value="{{ almacen.Capacidad }}" required>
+
+            <label>Categoría (Tipo)</label>
+            <select name="Tipo" required>
+                {% for c in categorias %}
+                    <option value="{{ c.id }}" {% if almacen.Tipo.id == c.id %}selected{% endif %}>
+                        {{ c.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <!-- <label>Nivel de Seguridad</label>
+            <input type="text" name="Nivel_seguridad" value="{{ almacen.Nivel_seguridad }}"> -->
+
+            <div class="btns">
+                <a href="{% url 'invenzo:lista_almacenes' %}" class="btn-cancelar">Cancelar</a>
+                <button type="submit" class="btn-guardar">Guardar Cambios</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro – Invenzo</title>
+    <link rel="stylesheet" href="{% static 'registro.css' %}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<div class="registro-container">
+    <div class="registro-box">
+
+        <h1>Invenzo</h1>
+        <p class="subtitulo">Gestión inteligente de inventarios</p>
+        <h2>Crear una cuenta</h2>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="input-icon">
+                <i data-lucide="user"></i>
+                <input type="text" name="nombre" placeholder="Tu nombre completo" required>
+            </div>
+
+            <div class="input-icon">
+                <i data-lucide="mail"></i>
+                <input type="email" name="{{ form.email.name }}" placeholder="correo@ejemplo.com" required>
+            </div>
+
+            <div class="input-icon">
+                <i data-lucide="lock"></i>
+                <input type="password" name="{{ form.contraseña.name }}" placeholder="Contraseña" required>
+            </div>
+
+            <div class="input-icon">
+                <i data-lucide="lock-keyhole"></i>
+                <input type="password" name="{{ form.confirm.name }}" placeholder="Repite la contraseña" required>
+            </div>
+
+            <!-- Campo de rol -->
+            <div class="input-icono">
+                <i data-lucide="user-check"></i>
+                <select name="rol" required>
+                    <option value="" disabled selected>Selecciona tu rol</option>
+                    <option value="auxiliar">Auxiliar</option>
+                    <option value="administrador">Administrador</option>
+                </select>
+            </div>
+            
+
+            <label class="checkbox">
+                <input type="checkbox" name="terminos" class="acepto" required>
+                <p>Acepto los Términos y Política de Privacidad</p>
+            </label>
+
+            <button type="submit" class="btn-principal">Crear Cuenta</button>
+        </form>
+
+        <div class="separador">— O regístrate con —</div>
+
+        <div class="social-login">
+            <button><i data-lucide="circle-user-round"></i> Google</button>
+            <button><i data-lucide="badge-check"></i> Microsoft</button>
+        </div>
+
+        {% if form.errors %}
+            <ul class="errores">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+    </div>
+</div>
+
+<script>
+    lucide.createIcons();
+</script>
+
+</body>
+</html>

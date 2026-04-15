@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Producto</title>
+</head>
+<body>
+    <h1>Editar Producto</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+    <button type="submit">Guardar Cambios</button>
+    </form>
+    <a href="/productos/">Volver</a>
+</body>
+</html>

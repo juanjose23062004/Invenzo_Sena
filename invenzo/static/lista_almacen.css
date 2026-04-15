@@ -1,0 +1,229 @@
+/* Fondo oscuro */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(3px);
+}
+
+/* Caja del modal */
+.modal-content {
+    background: #fff;
+    width: 420px;
+    margin: 8% auto;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    animation: popup 0.25s ease-out;
+}
+/* Select bonito */
+.modal-content select {
+    appearance: none;        /* quita la flecha por defecto */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    width: 100%;
+    padding: 10px;
+    padding-right: 35px; /* espacio para la nueva flecha */
+    margin-top: 5px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #fff url("data:image/svg+xml;utf8,<svg fill='gray' height='20' width='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'><polygon points='0,0 20,0 10,12'/></svg>") no-repeat right 10px center;
+    background-size: 14px;
+}
+
+.modal-content select:focus {
+    border-color: #4A5CFF;
+    outline: none;
+    box-shadow: 0 0 4px rgba(74, 92, 255, 0.4);
+}
+
+
+/* Animación */
+@keyframes popup {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Botón cerrar */
+.close {
+    float: right;
+    cursor: pointer;
+    font-size: 24px;
+    color: #444;
+}
+
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-primario {
+    padding: 10px 16px;
+    background: #4A5CFF;
+    border: none;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.btn-primario:hover {
+    background: #3649e6;
+}
+
+/* Inputs */
+.modal-content input {
+    width: 95%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+/* Tabla general */
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    /* background: #fff; */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+/* Encabezados */
+.tabla thead {
+    background: #f4f4f5;
+    color: #fff;
+}
+
+.tabla th {
+    padding: 14px;
+    color: #777;
+    text-align: left;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+/* Filas */
+.tabla td {
+    padding: 12px 14px;
+    font-size: 14px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+}
+
+/* Efecto zebra */
+.tabla tbody tr:nth-child(even) {
+    background: #f7f8ff;
+}
+
+/* Hover en filas */
+.tabla tbody tr:hover {
+    background: #e9ebff;
+    transition: 0.2s;
+}
+
+/* Bordes redondeados inferiores */
+.tabla tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.actions-cell {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+/* Iconos */
+.action-icon {
+    cursor: pointer;
+    font-size: 20px;
+    padding: 6px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+}
+
+.edit-icon:hover {
+    background: #E7EEFF;
+    color: #4A5CFF;
+}
+
+.delete-icon:hover {
+    background: #FFE7E7;
+    color: #FF4A4A;
+}
+
+/* Toggle invisible */
+.modal-toggle {
+    display: none;
+}
+
+/* Fondo del modal */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(3px);
+    display: none;
+    z-index: 9999;
+}
+
+/* Mostrar cuando está activo */
+.modal-toggle:checked + .modal-backdrop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Ventana */
+.modal-window {
+    background: #fff;
+    width: 400px;
+    padding: 25px;
+    border-radius: 12px;
+    animation: popup 0.25s ease-out;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+/* Cerrar */
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Botones */
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.btn-cancel, .btn-confirm {
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    background: #ccc;
+}
+
+.btn-confirm {
+    background: #FF4A4A;
+    color: #fff;
+}

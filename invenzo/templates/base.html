@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+    <title>{% block title %}Invenzo{% endblock %}</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+
+    <aside class="sidebar active">
+
+        <div class="close-sidebar">
+            <i data-lucide="x"></i>
+        </div>
+
+        <div class="sidebar-user-profile">
+            {% if request.session.usuario_foto %}
+                <a href="{% url 'invenzo:configuracion_perfil' %}">
+                    <img src="{{ request.session.usuario_foto }}" alt="Foto" class="sidebar-user-avatar">
+                </a>
+            {% else %}
+                <a href="{% url 'invenzo:configuracion_perfil' %}">
+                    <i data-lucide="user-circle"></i>
+                </a>
+            {% endif %}
+
+            <span>{{ request.session.usuario_nombre|default:"Usuario" }}</span>
+        </div>
+        <div class="menu-title"><p>MENÚ PRINCIPAL</p></div>
+
+        <a href="{% url 'invenzo:dashboard' %}"
+            class="menu-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+            <i data-lucide="layout-dashboard"></i> Dashboard
+        </a>
+
+        <a href="{% url 'invenzo:productos_disponibles' %}"
+            class="menu-item {% if request.resolver_match.url_name == 'productos_disponibles' %}active{% endif %}">
+            <i data-lucide="package"></i> Productos
+        </a>
+
+        <a href="{% url 'invenzo:control_inventario' %}"
+            class="menu-item {% if request.resolver_match.url_name == 'control_inventario' %}active{% endif %}">
+            <i data-lucide="replace"></i> Control de Inventario
+        </a>
+
+        <a href="{% url 'invenzo:categorias' %}"
+            class="menu-item {% if request.resolver_match.url_name == 'categorias' %}active{% endif %}">
+            <i data-lucide="tags"></i> Categorías
+        </a>
+
+        <a href="{% url 'invenzo:historial' %}"
+            class="menu-item {% if request.resolver_match.url_name == 'historial' %}active{% endif %}">
+            <i data-lucide="history"></i> Historial
+        </a>
+
+        <a href="{% url 'invenzo:alerta_stock' %}"
+            class="menu-item {% if request.resolver_match.url_name == 'alerta_stock' %}active{% endif %}">
+            <i data-lucide="alert-triangle"></i> Alertas de Stock
+        </a>
+        <a href="{% url 'invenzo:lista_almacenes' %}"
+            class="menu-item {% if request.resolver_match.url_name == 'almacenes' %}active{% endif %}">
+            <i data-lucide="warehouse"></i> Almacenes
+        </a>
+        <a href="{% url 'invenzo:usuarios' %}"
+            class="menu-item {% if request.resolver_match.url_name == 'usuarios' %}active{% endif %}">
+            <i data-lucide="users"></i> Usuarios
+        </a>
+
+        <a href="{% url 'invenzo:configuracion' %}"
+            class="menu-item {% if request.resolver_match.url_name == 'configuracion' %}active{% endif %}">
+            <i data-lucide="settings"></i> Configuración
+        </a>
+
+        <div class="menu-title" style="margin-top: 30px;">
+            <p>CUENTA</p></div>
+
+        <a href="{% url 'invenzo:cerrar_sesion' %}" class="menu-item logout-btn">
+            <i data-lucide="log-out"></i> Cerrar sesión
+        </a>
+    </aside>
+
+    <div class="main-content">
+
+        <header class="topbar">
+            <div class="topbar-left">
+
+                <i data-lucide="skip-forward" class="menu-toggle"></i>
+
+                <h2>Invenzo</h2>
+            </div>
+
+            <div class="topbar-right">
+                <i data-lucide="bell"></i>
+
+                <div class="user-info">
+                    {% if request.session.usuario_foto %}
+                    <a href="">
+                        <img src="{{ request.session.usuario_foto }}" class="user-avatar">
+                    </a>
+                    {% else %}
+                        <i data-lucide="user-circle" style="width: 32px; height: 32px;"></i>
+                    {% endif %}
+                    <span>{{ request.session.usuario_nombre|default:"Usuario" }}</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+</div>
+
+    </div>
+    
+    
+        <script src="{% static 'js/sidebar.js' %}"></script>
+        <script>lucide.createIcons();</script>
+</body>
+
+</html>

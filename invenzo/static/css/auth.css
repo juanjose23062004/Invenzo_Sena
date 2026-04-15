@@ -1,0 +1,161 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background: #f5f6fa;
+}
+
+.container-auth {
+    display: flex;
+    height: 100vh;
+}
+
+/* ==== Lado Izquierdo (Imagen) ==== */
+.left-auth {
+    width: 50%;
+    background: #1e56c4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-auth img {
+    width: 80%;
+}
+
+/* ==== Lado Derecho ==== */
+.right-auth {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    padding: 40px;
+}
+
+.auth-box {
+    width: 85%;
+    max-width: 420px;
+}
+
+.auth-box h1 {
+    color: #1e56c4;
+    font-size: 32px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.auth-box h2 {
+    font-size: 26px;
+    color: #1e56c4;
+    margin-top: 5px;
+}
+
+.auth-box p {
+    color: #555;
+}
+
+/* ==== Inputs ==== */
+.input-icon {
+    display: flex;
+    align-items: center;
+    border: 1px solid #d0d5dd;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    background: #fff;
+}
+
+.input-icon i {
+    margin-right: 10px;
+    color: #1e56c4;
+}
+
+.input-icon input {
+    border: none;
+    width: 100%;
+    font-size: 15px;
+}
+
+.input-icon input:focus {
+    outline: none;
+}
+
+/* ==== Botones ==== */
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #1e56c4;
+    color: white;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.btn-primary:hover {
+    background: #1748a4;
+}
+
+/* ==== Social Login ==== */
+.social-login {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.social-login button {
+    width: 48%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    padding: 10px;
+    border: 1px solid #d0d5dd;
+    border-radius: 10px;
+    cursor: pointer;
+    gap: 8px;
+}
+
+.social-login button:hover {
+    background: #f3f4f6;
+}
+
+/* ==== Enlaces ==== */
+.text-center {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.text-center a {
+    color: #1e56c4;
+    text-decoration: none;
+}
+
+.text-center a:hover {
+    text-decoration: underline;
+}
+
+/* ==== Mensajes ==== */
+.error {
+    color: #e63946;
+    font-size: 14px;
+}
+
+.success-box {
+    padding: 20px;
+    border: 2px solid #b5f2c9;
+    background: #e9fff1;
+    border-radius: 12px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.success-box i {
+    color: #2ecc71;
+    font-size: 30px;
+}

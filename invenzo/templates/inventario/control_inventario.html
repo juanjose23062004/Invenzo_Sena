@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Control de Inventario{% endblock %}
+{% block header_title %}Control de Inventario{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/control_inventario.css' %}">
+
+<div class="page-title">
+    <h1>Control de Inventario</h1>
+    <p>Registra entradas y salidas de productos</p>
+</div>
+
+{% if mensaje %}
+<div class="alert success">{{ mensaje }}</div>
+{% endif %}
+{% if error %}
+<div class="alert error">{{ error }}</div>
+{% endif %}
+
+<!-- FORMULARIO -->
+<div class="card">
+    <h3>Registrar Movimiento</h3>
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="form-row">
+            
+            <!-- ALMACÉN (NUEVO) -->
+            <div class="form-group">
+                <label>Almacén *</label>
+                <select name="almacen" required>
+                    <option selected disabled>Selecciona un almacén</option>
+                    {% for a in almacenes %}
+                    <option value="{{ a.id }}">{{ a.Nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <!-- PRODUCTO -->
+            <div class="form-group">
+                <label>Producto *</label>
+                <select name="producto" required>
+                    <option selected disabled>Selecciona un producto</option>
+                    {% for p in productos %}
+                   <option value="{{ p.id }}" data-almacen="{{ p.almacen.id }}">
+                        {{ p.nombre }} (Stock: {{ p.cantidad }})
+                    </option>
+
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- TIPO -->
+            <div class="form-group">
+                <label>Tipo de Movimiento *</label>
+                <select name="tipo_movimiento" required>
+                    <option value="entrada">Entrada</option>
+                    <option value="salida">Salida</option>
+                </select>
+            </div>
+
+            <!-- CANTIDAD -->
+            <div class="form-group">
+                <label>Cantidad *</label>
+                <input type="number" min="1" name="cantidad" required>
+            </div>
+
+
+        </div>
+
+        <div class="form-group full">
+            <label>Observaciones</label>
+            <textarea name="observacion" rows="2" placeholder="Detalles sobre este movimiento"></textarea>
+        </div>
+
+        <button class="btn-submit">
+            <i data-lucide="save"></i> Registrar Movimiento
+        </button>
+
+    </form>
+</div>
+
+<!-- MOVIMIENTOS RECIENTES -->
+<div class="card">
+    <div class="card-title-row">
+        <h3>Movimientos Recientes</h3>
+        <a href="#" class="see-more">Ver Historial Completo</a>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>PRODUCTO</th>
+                <th>TIPO</th>
+                <th>CANTIDAD</th>
+                <th>FECHA</th>
+                <th>USUARIO</th>
+                <th>ALMACÉN</th> <!-- NUEVA -->
+                <th>NOTAS</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for m in movimientos %}
+            <tr>
+                <td>{{ m.producto.nombre }}</td>
+
+                <td>
+                    {% if m.tipo_movimiento == "entrada" %}
+                        <span class="badge in">Entrada</span>
+                    {% else %}
+                        <span class="badge out">Salida</span>
+                    {% endif %}
+                </td>
+
+                <td>{{ m.cantidad }}</td>
+                <td>{{ m.fecha_movimiento|date:"Y-m-d H:i" }}</td>
+                <td>{{ m.usuario.nombre }}</td>
+
+                <!-- ALMACÉN -->
+                <td>{{ m.almacen.Nombre }}</td>
+
+                <td>{{ m.observacion|default:"-" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- RESUMEN -->
+<div class="card">
+    <h3>Resumen de Stock</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>PRODUCTO</th>
+                <th>CÓDIGO</th>
+                <th>CATEGORÍA</th>
+                <th>STOCK ACTUAL</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for p in productos %}
+            <tr>
+                <td>{{ p.nombre }}</td>
+                <td>{{ p.codigo }}</td>
+                <td>{{ p.categoria.nombre }}</td>
+
+                <td>
+                    {% if p.cantidad == 0 %}
+                        <span class="badge danger">Sin Stock</span>
+                    {% elif p.cantidad <= p.stock_minimo %}
+                        <span class="badge warning">Stock Bajo</span>
+                    {% else %}
+                        <span class="badge ok">{{ p.cantidad }}</span>
+                    {% endif %}
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const almacenSelect = document.querySelector("select[name='almacen']");
+    const productoSelect = document.querySelector("select[name='producto']");
+    const productos = productoSelect.querySelectorAll("option[data-almacen]");
+
+    // Ocultar todos los productos al cargar
+    productos.forEach(opt => opt.style.display = "none");
+
+    almacenSelect.addEventListener("change", () => {
+        const idAlmacen = almacenSelect.value;
+
+        // Reiniciar selección
+        productoSelect.value = "";
+        
+        // Ocultar todo
+        productos.forEach(opt => opt.style.display = "none");
+
+        // Mostrar solo productos del almacén seleccionado
+        productos.forEach(opt => {
+            if (opt.dataset.almacen === idAlmacen) {
+                opt.style.display = "block";
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Invenzo - Landing Page</title>
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <header class="navbar">
+
+    <div class="logo">
+        <i data-lucide="box"></i>
+        <span>Invenzo</span>
+    </div>
+
+    <nav>
+      <a href="{% url 'invenzo:home' %}">Inicio</a>
+      <a href="#caracteristicas">Características</a>
+      <a href="#contacto">Contacto</a>
+
+      <a href="{% url 'invenzo:iniciar_sesion' %}">
+        <button class="btn-login">Iniciar sesión</button>
+      </a>
+    </nav>
+</header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Gestiona tu inventario de forma <span class="highlight">simple y eficiente</span></h1>
+      <p>Invenzo te ayuda a controlar tu inventario, optimizar tus recursos y tomar mejores decisiones para tu negocio.</p>
+
+      <div class="hero-buttons">
+        <a href="{% url 'invenzo:registrar_usuario' %}" class="btn-primary">Empieza ahora gratis</a>
+        <a href="#" class="btn-outline">Ver demo</a>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <img src="{% static 'dashboard.png' %}" alt="Dashboard Invenzo">
+    </div>
+  </section>
+
+
+  <section class="features" id="caracteristicas">
+    <h2>Características Principales</h2>
+    <p>Todo lo que necesitas para gestionar tu inventario en un solo lugar</p>
+
+    <div class="feature-grid">
+
+      <div class="feature-item">
+        <i data-lucide="folder" class="icon"></i>
+        <h3>Gestión de Categorías</h3>
+        <p>Organiza tus productos en categorías personalizables para facilitar su búsqueda y gestión.</p>
+      </div>
+
+      <div class="feature-item">
+        <i data-lucide="package" class="icon"></i>
+        <h3>Control de Productos</h3>
+        <p>Administra todos tus productos con información detallada, imágenes y códigos de barras.</p>
+      </div>
+
+      <div class="feature-item">
+        <i data-lucide="repeat" class="icon"></i>
+        <h3>Entradas y Salidas</h3>
+        <p>Registra todos los movimientos de tu inventario con un sistema simple e intuitivo.</p>
+      </div>
+
+      <div class="feature-item">
+        <i data-lucide="bell" class="icon"></i>
+        <h3>Alertas de Stock</h3>
+        <p>Recibe notificaciones cuando tus productos alcancen niveles mínimos de inventario.</p>
+      </div>
+
+      <div class="feature-item">
+        <i data-lucide="bar-chart-3" class="icon"></i>
+        <h3>Reportes y Estadísticas</h3>
+        <p>Visualiza el rendimiento de tu inventario con gráficos y reportes detallados.</p>
+      </div>
+
+      <div class="feature-item">
+        <i data-lucide="users" class="icon"></i>
+        <h3>Gestión de Usuarios</h3>
+        <p>Asigna roles y permisos a tu equipo para controlar el acceso a la información.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <section class="cta">
+    <div class="cta-content">
+      <div class="cta-text">
+        <h2>¿Listo para optimizar tu inventario?</h2>
+        <p>Únete a miles de empresas que ya están gestionando su inventario de forma eficiente con Invenzo.</p>
+
+        <div class="cta-buttons">
+          <a href="{% url 'invenzo:registrar_usuario' %}" class="btn-primary">Comenzar Gratis</a>
+          <a href="#" class="btn-outline">Solicitar Demo</a>
+        </div>
+      </div>
+
+      <div class="cta-image">
+        <img src="{% static 'dashboard.png' %}" alt="Dashboard Demo">
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer" id="contacto">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <h3>Invenzo</h3>
+        <p>Sistema de gestión de inventario simple y eficiente para pequeñas y medianas empresas.</p>
+
+        <div class="social-icons">
+          <i data-lucide="facebook"></i>
+          <i data-lucide="twitter"></i>
+          <i data-lucide="instagram"></i>
+          <i data-lucide="linkedin"></i>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <div>
+          <h4>Producto</h4>
+          <ul>
+            <li><a href="#caracteristicas">Características</a></li>
+            <li><a href="#">Precios</a></li>
+            <li><a href="#">Testimonios</a></li>
+            <li><a href="#">Guías</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Empresa</h4>
+          <ul>
+            <li><a href="#">Sobre Nosotros</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Empleo</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Soporte</h4>
+          <ul>
+            <li><a href="#">Centro de ayuda</a></li>
+            <li><a href="#">Documentación</a></li>
+            <li><a href="#">Estado del sistema</a></li>
+            <li><a href="#">API</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 Invenzo. Todos los derechos reservados.</p>
+      <div class="footer-policy">
+        <a href="#">Términos de Servicio</a>
+        <a href="#">Política de Privacidad</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

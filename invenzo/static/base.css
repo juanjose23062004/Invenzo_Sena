@@ -1,0 +1,328 @@
+:root {
+    --primary: #0077B6;
+    --text-primary: #1F2937;
+    --text-muted: #6B7280;
+    --bg-light: #F9FAFB;
+    --border-color: #E5E7EB;
+    --menu-active-bg: #E0F2FE;
+    --card-bg: #FFFFFF;
+}
+
+body {
+    margin: 0;
+    font-family: Inter, system-ui, Arial, sans-serif;
+    background: var(--bg-light);
+    color: var(--text-primary);
+    display: flex;
+    min-height: 100vh;
+}
+
+/* BOTÓN ABRIR MENÚ */
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    z-index: 9999;
+    cursor: pointer;
+}
+
+.menu-toggle svg {
+    width: 28px;
+    height: 28px;
+}
+
+/* BOTÓN CERRAR MENÚ */
+.close-sidebar {
+    display: none;
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.close-sidebar svg {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+    width: 260px;
+    min-width: 260px;
+    background: var(--card-bg);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    padding: 24px 20px;
+    border-right: 1px solid var(--border-color);
+    overflow-y: auto;
+    flex-shrink: 0;
+    transition: left 0.3s ease-in-out;
+}
+
+/* Imagen del usuario en el sidebar */
+.sidebar-user-avatar {
+    width: 55px !important;
+    height: 55px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* 🔥 NUEVO: Para alinear Avatar y Nombre en Sidebar */
+.sidebar-user-profile {
+    display: flex;
+    flex-direction: column; /* Lo ponemos en columna si queremos el nombre debajo */
+    align-items: center; 
+    gap: 8px; /* Espacio entre avatar y nombre */
+    padding-bottom: 20px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+}
+/* Asegura que el icono user-circle se vea bien en el sidebar si no hay foto */
+.sidebar-user-profile i [data-lucide="user-circle"] {
+    width: 55px;
+    height: 55px;
+    color: var(--text-muted);
+    cursor: pointer;
+    color: black;
+}
+/* Para que el texto no esté pegado al icono si lo quieres en línea:
+.sidebar-user-profile {
+    display: flex;
+    align-items: center; 
+    gap: 12px;
+    ...
+}
+*/
+
+
+/* MENÚ LATERAL */
+.menu-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+    margin-top: 20px;
+    padding: 0 12px;
+}
+.menu-title p {
+    user-select: none;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    transition: background-color 0.1s ease;
+}
+
+.menu-item svg {
+    width: 20px;
+    height: 20px;
+    color: var(--text-muted);
+}
+
+.menu-item:hover {
+    background: var(--menu-active-bg);
+}
+
+.menu-item.active {
+    background: var(--menu-active-bg);
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.menu-item.active svg {
+    color: var(--primary);
+}
+
+/* --- MAIN CONTENT --- */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    /* margin-left: 260px; */
+}
+
+/* --- TOPBAR --- */
+.topbar {
+    height: 60px;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    overflow: hidden;
+}
+
+/* 🔥 NUEVO — Alinear icono + texto */
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* separacion mínima */
+}
+
+.menu-toggle-icon {
+    cursor: pointer;
+}
+
+.topbar-left i {
+    cursor: pointer;
+}
+
+/* Área derecha */
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.topbar-right i {
+    cursor: pointer;
+}
+
+/* Imagen del usuario en el topbar */
+.user-avatar {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* User info */
+.user-info {
+    /* 🔥 CORREGIDO: Asegura la alineación horizontal de avatar y span */
+    display: flex;
+    align-items: center; /* Alinea icono + nombre en fila */
+    flex-direction: row; 
+    gap: 8px;
+    
+    font-weight: 500;
+    font-size: 15px;
+    
+    /* Las siguientes líneas de tu CSS anterior son innecesarias y causaban problemas: */
+    /* width: 22px; */
+    /* height: 22px; */
+}
+
+
+/* CONTENEDOR */
+.container {
+    padding: 24px;
+    flex-grow: 1;
+}
+
+/* LOGOUT */
+.logout-btn {
+    color: #DC2626;
+    font-weight: 600;
+}
+
+.logout-btn svg {
+    color: #DC2626;
+}
+
+.logout-btn:hover {
+    background: #FEE2E2;
+}
+
+/* ---------------------------- */
+/* ESCRITORIO (sidebar fijo)  */
+/* ---------------------------- */
+@media (min-width: 851px) {
+
+    .sidebar {
+        position: sticky !important;
+        top: 0;
+        left: 0 !important;
+        transform: none !important;
+        z-index: 1 !important;
+    }
+
+    .sidebar.active {
+        left: 0 !important;
+    }
+
+    /* .main-content {
+        margin-left: 20px !important;
+    } */
+
+    .menu-toggle,
+    .close-sidebar {
+        display: none !important;
+    }
+}
+
+/* ---------------------------- */
+/* MÓVIL (sidebar deslizable) */
+/* ---------------------------- */
+@media (max-width: 850px) {
+
+    .sidebar {
+        position: fixed !important;
+        left: -260px;
+        top: 0;
+        height: 100vh;
+        z-index: 999;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .close-sidebar {
+        display: block;
+    }
+}
+
+.messages {
+    margin-bottom: 20px;
+}
+
+.alert {
+    padding: 12px 15px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.alert.success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.alert.error {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.alert.warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.alert.info {
+    background: #d1ecf1;
+    color: #0c5460;
+}

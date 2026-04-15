@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Recuperar Contraseña – Invenzo</title>
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<div class="container-auth">
+
+    <!-- Fondo azul -->
+    <div class="left-auth"></div>
+
+    <!-- Contenido -->
+    <div class="right-auth">
+        <div class="auth-box">
+
+            <h1><i data-lucide="cube"></i> Invenzo</h1>
+            <h2>Recuperar contraseña</h2>
+            <p>Ingresa tu correo y te enviaremos un enlace para restablecer tu contraseña.</p>
+
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="input-icon">
+                    <i data-lucide="mail"></i>
+                    <input type="email" name="email" placeholder="correo@ejemplo.com" required>
+                </div>
+
+                <button class="btn-primary" type="submit">Enviar enlace de recuperación</button>
+            </form>
+
+            {% if enviado %}
+            <div class="success-box">
+                <i data-lucide="check-circle"></i>
+                <p><strong>¡Correo enviado!</strong><br>
+                Te enviamos un enlace a <strong>{{ email }}</strong></p>
+            </div>
+            {% endif %}
+
+            <p class="text-center">
+                <a href="{% url 'invenzo:iniciar_sesion' %}">Volver a Iniciar Sesión</a>
+            </p>
+
+            <p class="text-center">
+                ¿No tienes cuenta? <a href="{% url 'invenzo:registrar_usuario' %}">Regístrate</a>
+            </p>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    lucide.createIcons()
+</script>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+.config-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    user-select: none;
+}
+
+.config-card {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: .2s;
+}
+.config-container a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.config-card:hover {
+    transform: translateY(-3px);
+}
+
+.config-card i {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+    color: var(--primary);
+}
+
+.config-card h3 {
+    margin-bottom: 5px;
+}
+
+.config-card p {
+    color: #777;
+    margin-bottom: 15px;
+}
+.config-container .config-card .admin{
+    color: black;
+}
+.admin:hover {
+    color: blue;
+}
+
+.badge {
+    background: #ffd6d6;
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: #b10000;
+    font-size: 13px;
+}
+
+/* CONTENEDOR GENERAL */
+.config-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+/* CARDS */
+.perfil-card {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.perfil-card h3 {
+    margin-bottom: 15px;
+}
+
+/* FOTO DE PERFIL */
+.perfil-avatar,
+.perfil-foto img {
+    width: 120px !important;       /* tamaño controlado */
+    height: 120px !important;      /* tamaño controlado */
+    border-radius: 50%;            /* círculo */
+    object-fit: cover;             /* recortar correctamente */
+    display: block;
+    margin: 0 auto 15px auto;      /* centrar y espacio inferior */
+    border: 2px solid #0077B6;     /* borde bonito */
+}
+
+/* INPUTS */
+.perfil-card input[type="text"],
+.perfil-card input[type="email"],
+.perfil-card input[type="password"],
+.perfil-card input[type="file"],
+.perfil-card select,
+.perfil-card textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+.file-input {
+    border: none !important;
+}
+
+/* SWITCHES */
+.switch-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+}
+
+.switch-row span {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.switch-row input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    accent-color: var(--primary);
+}
+
+
+.perfil-avatar-icon {
+    display: block;
+    margin: 0 auto;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: #F0F0F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

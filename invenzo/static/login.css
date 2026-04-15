@@ -1,0 +1,158 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: 'Inter', sans-serif;
+}
+
+body {
+   display: flex;
+   height: 100vh;
+   background-color: #f4f4f4;
+}
+
+.container {
+   /* height: 100vh; */
+   /* width: 100vb; */
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   display: flex;
+  box-sizing: border-box;
+  user-select: none;
+
+}
+
+.left {
+   background: #4263dd;
+   color: white;
+   display: flex;
+   flex: 1;
+   align-items: center;
+   justify-content: center;
+   padding: 1rem;
+}
+.left img{
+   width: 70vw;
+   height: 100vh;
+}
+.login-left {
+  background-size: cover;
+  background-position: center;
+}
+.right {
+   flex: 1;
+   background: linear-gradient(to right, #ffffff, #9bb8ea);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.login-box {
+   width: 100%;
+   max-width: 400px;
+   background-color: aliceblue;
+   padding: 2rem;
+   box-shadow: 0 0 10px rgba(0,0,0,0.1);
+   border-radius: 10px;
+}
+
+.login-box h1 {
+   color: #00aaff;
+   font-size: 28px;
+   margin-bottom: 0.5rem;
+}
+
+.login-box h2 {
+   font-size: 22px;
+   color: #1a1a1a;
+   margin-bottom: 1.5rem;
+}
+
+.login-box input[type="email"],
+.login-box input[type="password"] {
+   width: 100%;
+   padding: 10px;
+   margin-bottom: 1rem;
+   border: 1px solid #ccc;
+   border-radius: 8px;
+}
+
+.login-box label {
+   font-size: 14px;
+   display: block;
+   margin-bottom: 0.5rem;
+   }
+
+.login-box .options {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 1rem;
+   font-size: 14px;
+}
+
+.login-box .options input {
+   margin-right: 5px;
+}
+
+.login-box button {
+   width: 100%;
+   padding: 10px;
+   background-color: #0077cc;
+   color: rgb(255, 255, 255);
+   border: none;
+   border-radius: 8px;
+   cursor: pointer;
+   font-weight: bold;
+}
+
+.login-box .divider {
+   text-align: center;
+   margin: 1rem 0;
+   color: #888;
+}
+
+.login-box .social-login {
+   display: flex;
+   margin: 5px;
+   padding: 10px;
+   justify-content: space-between;
+}
+
+.login-box .social-login button {
+   flex: 1;
+   color: #1a1a1a;
+   margin: 3px;
+   padding: 10px;
+   border: 1px solid #ccc;
+   background: white;
+   border-radius: 8px;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.login-box .social-login img {
+   width: 20px;
+   margin-right: 5px;
+}
+
+.login-box .register {
+   margin-top: 1rem;
+   text-align: center;
+   font-size: 14px;
+}
+
+.login-box .register a {
+   color: #0077cc;
+   text-decoration: none;
+}
+.separador {
+   padding: 1px;
+   margin: 20px;
+   text-align: center;
+   font-size: 13px;
+   color: #999;
+}

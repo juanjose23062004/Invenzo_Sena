@@ -1,0 +1,292 @@
+/* ============================
+   CONTENEDOR PRINCIPAL
+============================ */
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.header-section h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #222;
+    margin: 0;
+}
+
+.header-section p {
+    font-size: 15px;
+    color: #666;
+    margin-top: 4px;
+}
+
+.btn-primary {
+    background: #2f7df4;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    background: #1d6ae0;
+}
+
+/* ============================
+   BARRA DE FILTROS
+============================ */
+
+.filters-section {
+    background: #fff;
+    padding: 18px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    box-shadow: 0px 1px 4px rgba(0,0,0,0.1);
+}
+
+.filters-section form {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 15px;
+}
+
+/* Buscador */
+.search-input {
+    position: relative;
+    flex: 1;
+}
+
+.search-input i {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+.search-input input {
+    width: 100%;
+    padding: 10px 35px 10px 38px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+/* Dropdown */
+.dropdown-button {
+    background: #f4f4f4;
+    border: 1px solid #ddd;
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-secondary {
+    padding: 10px 15px;
+    background: #e8f1ff;
+    border: 1px solid #c5d9ff;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #2f7df4;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-secondary:hover {
+    background: #dbe9ff;
+}
+
+/* ============================
+   TABS DE ESTADO
+============================ */
+
+.status-tabs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.status-tabs .tab {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 8px 10px;
+    border-bottom: 2px solid transparent;
+}
+
+.status-tabs .active {
+    border-bottom: 2px solid #2f7df4;
+    color: #2f7df4;
+}
+
+.status-tabs .warning {
+    color: #c78a00;
+}
+
+.status-tabs .danger {
+    color: #cc3b3b;
+}
+
+.status-tabs .badge {
+    margin-left: 6px;
+    background: #eee;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+/* ============================
+   TABLA DE PRODUCTOS
+============================ */
+
+.products-table table {
+    width: 100%;
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    border-collapse: collapse;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.products-table thead {
+    background: #f7f7f7;
+}
+
+.products-table th {
+    text-align: left;
+    padding: 14px;
+    font-size: 13px;
+    color: #555;
+    font-weight: 600;
+}
+
+.products-table td {
+    padding: 15px;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+/* Productos con imagen */
+.product-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.product-cell img {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+/* Colorear filas */
+.in-stock-row {
+    background: #fff;
+}
+
+.low-stock-row {
+    background: #fff9e6;
+}
+
+.out-of-stock-row {
+    background: #ffeaea;
+}
+
+/* Estado */
+.status-tag {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-tag.in-stock {
+    background: #e3f7e9;
+    color: #1a8b2b;
+}
+
+.status-tag.low-stock {
+    background: #fff3d4;
+    color: #c78a00;
+}
+
+.status-tag.out-of-stock {
+    background: #ffd6d6;
+    color: #cc3b3b;
+}
+
+/* ============================
+   ICONOS DE ACCIÓN
+============================ */
+
+.actions-cell {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.btn-delete {
+    color: #d9534f;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+.btn-edit {
+    color: #2f7df4;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+/* ============================
+   PAGINACIÓN
+============================ */
+
+.pagination {
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+.pages {
+    display: flex;
+    gap: 8px;
+}
+
+.page-number {
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #eee;
+    text-decoration: none;
+    color: #333;
+}
+
+.page-number.active {
+    background: #2f7df4;
+    color: white;
+}

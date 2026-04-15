@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}
+Productos Disponibles
+{% endblock title %}
+
+{% block content %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+</form>
+
+<h2>Gestión de Productos</h2>
+
+<table border="1" cellpadding="8">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Código</th>
+            <th>Categoría</th>
+            <th>Cantidad</th>
+            <th>Stock Máximo</th>
+            <th>Stock Mínimo</th>
+            <th>Precio</th>
+            <th>Descripción</th>
+            <th>Fecha de Ingreso</th>
+        </tr>
+    </thead>
+    <tbody>
+<input type="checkbox" id="modal-toggle" class="modal-toggle" />
+<div class="modal-backdrop">
+    <div class="modal-window">
+        <label for="modal-toggle" class="modal-close">✕</label>
+        <h3>Agregar Producto</h3>
+
+        <form method="post" action="{% url 'invenzo:agregar_producto' %}">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="id_almacen"><b>Almacén donde se agrega:</b></label>
+                {{ form.almacen }}
+            </div>
+
+            <!-- Campos restantes del formulario -->
+            <div class="form-group">
+                {{ form.nombre.label_tag }}
+                {{ form.nombre }}
+            </div>
+
+            <div class="form-group">
+                {{ form.codigo.label_tag }}
+                {{ form.codigo }}
+            </div>
+
+            <div class="form-group">
+                {{ form.categoria.label_tag }}
+                {{ form.categoria }}
+            </div>
+
+            <div class="form-group">
+                {{ form.cantidad.label_tag }}
+                {{ form.cantidad }}
+            </div>
+
+            <div class="form-group">
+                {{ form.stock_minimo.label_tag }}
+                {{ form.stock_minimo }}
+            </div>
+
+            <div class="form-group">
+                {{ form.stock_maximo.label_tag }}
+                {{ form.stock_maximo }}
+            </div>
+
+            <div class="form-group">
+                {{ form.precio.label_tag }}
+                {{ form.precio }}
+            </div>
+
+            <div class="form-group">
+                {{ form.descripcion.label_tag }}
+                {{ form.descripcion }}
+            </div>
+
+            <div class="form-group">
+                {{ form.fecha_ingreso.label_tag }}
+                {{ form.fecha_ingreso }}
+            </div>
+
+            <div class="modal-actions">
+                <label for="modal-toggle" class="btn secondary">Cancelar</label>
+                <button type="submit" class="btn primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+    </tbody>
+</table>
+
+{% endblock content %}

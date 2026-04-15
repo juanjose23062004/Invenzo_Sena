@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Configuración del Sistema{% endblock %}
+{% block header_title %}Configuración del Sistema{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/configuracion.css' %}">
+
+<div class="config-wrapper">
+
+    <div class="perfil-card">
+        <h3>Parámetros Generales</h3>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label>Nombre del Sistema</label>
+            <input type="text" name="nombre_sistema" value="{{ nombre_sistema }}">
+
+            <label>Logo</label>
+            <input type="file" name="logo">
+
+            <label>Stock Mínimo Global</label>
+            <input type="number" min="1" name="stock_min_global" value="{{ stock_min_global }}" required>
+
+            <label>Stock Máximo Global</label>
+            <input type="number" min="1" name="stock_max_global" value="{{ stock_max_global }}" required>
+
+            <button type="submit" class="btn-primary">Guardar Cambios</button>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

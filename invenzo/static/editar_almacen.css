@@ -1,0 +1,86 @@
+/* Fondo general */
+.container-editar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 40px;
+}
+
+/* Tarjeta */
+.card-editar {
+    background: #fff;
+    width: 480px;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    animation: fadeIn 0.25s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.card-editar h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Inputs */
+.card-editar input,
+.card-editar select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f9f9f9;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.card-editar input:focus,
+.card-editar select:focus {
+    border-color: #4A5CFF;
+    box-shadow: 0 0 4px rgba(74, 92, 255, 0.4);
+    background: #fff;
+}
+
+/* Botones */
+.btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.btn-cancelar,
+.btn-guardar {
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+/* Cancelar */
+.btn-cancelar {
+    background: #ddd;
+    color: #333;
+}
+
+.btn-cancelar:hover {
+    background: #c8c8c8;
+}
+
+/* Guardar */
+.btn-guardar {
+    background: #4A5CFF;
+    color: #fff;
+    border: none;
+}
+
+.btn-guardar:hover {
+    background: #3649e6;
+}

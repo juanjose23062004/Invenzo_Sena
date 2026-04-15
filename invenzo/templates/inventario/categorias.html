@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Categorías{% endblock %}
+{% block header_title %}Gestión de Categorías{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/categorias.css' %}">
+
+<!-- ========== ENCABEZADO ========== -->
+<section class="header-section">
+    <h1>Gestión de Categorías</h1>
+    <p>Administra las categorías de tus productos</p>
+
+    <!-- BOTÓN ABRIR MODAL DE NUEVA CATEGORÍA -->
+    <label for="modal-nueva" class="btn-primary">
+        <i class="fas fa-plus"></i> Nueva Categoría
+    </label>
+</section>
+
+<!-- ========== BÚSQUEDA Y FILTROS ========== -->
+<section class="filters-section">
+    <form method="GET">
+
+        <div class="search-input">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Buscar categorías..." name="search" value="{{ request.GET.search }}">
+        </div>
+
+        <div class="action-buttons">
+            <button type="submit" class="btn-secondary">
+                <i class="fas fa-filter"></i> Filtrar
+            </button>
+
+            <a class="btn-secondary export-btn">
+                <i class="fas fa-file-export"></i> Exportar
+            </a>
+        </div>
+
+    </form>
+</section>
+
+<!-- ========== TABLA DE CATEGORÍAS ========== -->
+<section class="categories-table">
+    <table>
+        <thead>
+            <tr>
+                <th>NOMBRE</th>
+                <th>DESCRIPCIÓN</th>
+                <th>PRODUCTOS</th>
+                <th>FECHA CREACIÓN</th>
+                <th>ESTADO</th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for categoria in categorias %}
+            <tr>
+
+                <!-- NOMBRE -->
+                <td class="cat-name">
+                    <div class="icon-box">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    {{ categoria.nombre }}
+                </td>
+
+                <td class="cat-desc">
+                    {{ categoria.descripcion|default:"—" }}
+                </td>
+
+                <td class="cat-count">
+                    {{ categoria.producto_set.count }}
+                </td>
+
+                <td>
+                    {{ categoria.fecha_creacion|date:"d/m/Y" }}
+                </td>
+
+                <td>
+                    {% if categoria.estado == 'activo' %}
+                        <span class="status active">Activo</span>
+                    {% else %}
+                        <span class="status inactive">Inactivo</span>
+                    {% endif %}
+                </td>
+
+                <td class="actions">
+
+                    <!-- EDITAR -->
+                    <label for="modal-editar-{{ categoria.id }}" class="btn-edit">
+                        <i class="fas fa-edit"></i>
+                    </label>
+
+                    <!-- ELIMINAR -->
+                    <label for="modal-eliminar-{{ categoria.id }}" class="btn-delete">
+                        <i class="fas fa-trash"></i>
+                    </label>
+
+                    <!-- ========== MODAL EDITAR ========== -->
+                    <input type="checkbox" id="modal-editar-{{ categoria.id }}" class="modal-toggle">
+
+                    <div class="modal-backdrop">
+                        <div class="modal-window">
+                            <label for="modal-editar-{{ categoria.id }}" class="modal-close">&times;</label>
+
+                            <h2>Editar Categoría</h2>
+
+                            <form method="POST" action="{% url 'invenzo:editar_categoria' categoria.id %}">
+                                {% csrf_token %}
+
+                                <label>Nombre</label>
+                                <input type="text" name="nombre" value="{{ categoria.nombre }}" required>
+
+                                <label>Descripción</label>
+                                <textarea name="descripcion">{{ categoria.descripcion }}</textarea>
+
+                                <label>Estado</label>
+                                <select name="estado">
+                                    <option value="activo" {% if categoria.estado == 'activo' %}selected{% endif %}>Activo</option>
+                                    <option value="inactivo" {% if categoria.estado == 'inactivo' %}selected{% endif %}>Inactivo</option>
+                                </select>
+
+                                <div class="modal-actions">
+                                    <label for="modal-editar-{{ categoria.id }}" class="btn-cancel">Cancelar</label>
+                                    <button type="submit" class="btn-confirm">Guardar</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+
+                    <!-- ========== MODAL ELIMINAR ========== -->
+                    <input type="checkbox" id="modal-eliminar-{{ categoria.id }}" class="modal-toggle">
+
+                    <div class="modal-backdrop">
+                        <div class="modal-window">
+                            <label for="modal-eliminar-{{ categoria.id }}" class="modal-close">&times;</label>
+
+                            <h2>Eliminar Categoría</h2>
+                            <p>¿Deseas eliminar la categoría <b>{{ categoria.nombre }}</b>?</p>
+
+                            <form method="POST" action="{% url 'invenzo:eliminar_categoria' categoria.id %}">
+                                {% csrf_token %}
+                                <div class="modal-actions">
+                                    <label for="modal-eliminar-{{ categoria.id }}" class="btn-cancel">Cancelar</label>
+                                    <button type="submit" class="btn-confirm delete">Eliminar</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+
+                </td>
+
+            </tr>
+            {% empty %}
+
+            <tr>
+                <td colspan="6" class="empty-table">No hay categorías registradas.</td>
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<!-- ========== MODAL NUEVA CATEGORÍA ========== -->
+<input type="checkbox" id="modal-nueva" class="modal-toggle">
+
+<div class="modal-backdrop">
+    <div class="modal-window">
+
+        <label for="modal-nueva" class="modal-close">&times;</label>
+
+        <h2>Nueva Categoría</h2>
+
+        <form method="POST" action="{% url 'invenzo:crear_categoria' %}">
+            {% csrf_token %}
+
+            <label>Nombre</label>
+            <input type="text" name="nombre" required>
+
+            <label>Descripción</label>
+            <textarea name="descripcion"></textarea>
+
+            <div class="modal-actions">
+                <label for="modal-nueva" class="btn-cancel">Cancelar</label>
+                <button type="submit" class="btn-confirm">Guardar</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

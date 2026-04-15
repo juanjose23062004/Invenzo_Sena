@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Alertas de Stock{% endblock %}
+{% block header_title %}Alertas de Stock{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/alertas.css' %}">
+
+<section class="header-section">
+    <h1>Alertas de Stock</h1>
+    <p>Productos con niveles bajos de inventario</p>
+</section>
+
+<section class="stats-cards">
+
+    <div class="stat-card red">
+        <h3>Stock Crítico</h3>
+        <span class="count">{{ total_criticos }}</span>
+        <p>Productos</p>
+    </div>
+
+    <div class="stat-card yellow">
+        <h3>Stock Bajo</h3>
+        <span class="count">{{ total_bajos }}</span>
+        <p>Productos</p>
+    </div>
+
+    <div class="stat-card blue">
+        <h3>Valor Estimado</h3>
+        <span class="price">${{ valor_estimado|floatformat:0 }}</span>
+        <p>Reposición necesaria</p>
+    </div>
+
+</section>
+
+<section class="filters-bar">
+
+    <form method="GET" class="filters-form">
+
+        <div class="search-box">
+            <i data-lucide="search"></i>
+            <input type="text" name="search" placeholder="Buscar productos..."
+                   value="{{ query.search }}">
+        </div>
+
+        <a href="#" class="btn-secondary small">
+            <i data-lucide="download"></i> Exportar Alertas
+        </a>
+
+    </form>
+
+    <div class="tabs">
+        <a href="?nivel=" class="tab {% if not query.nivel %}active{% endif %}">
+            <i data-lucide="layers"></i> Todos <span>{{ paginator.count }}</span>
+        </a>
+
+        <a href="?nivel=critico" class="tab {% if query.nivel == 'critico' %}active{% endif %}">
+            <i data-lucide="alert-octagon"></i> Críticos <span>{{ total_criticos }}</span>
+        </a>
+
+        <a href="?nivel=bajo" class="tab {% if query.nivel == 'bajo' %}active{% endif %}">
+            <i data-lucide="alert-triangle"></i> Bajos <span>{{ total_bajos }}</span>
+        </a>
+    </div>
+
+</section>
+
+<section class="alerts-table">
+    <table>
+        <thead>
+            <tr>
+                <th>PRODUCTO</th>
+                <th>CODIGO</th>
+                <th>CATEGORÍA</th>
+                <th>STOCK</th>
+                <th>NIVEL</th>
+                <th>ESTADO</th>
+                <th>ÚLTIMA REPOSICIÓN</th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for p in productos %}
+        <tr>
+
+            <td class="col-product">
+                <b>{{ p.nombre }}</b>
+            </td>
+
+            <td>{{ p.codigo }}</td>
+
+            <td>{{ p.categoria.nombre }}</td>
+
+            <td>{{ p.cantidad }} / {{ p.stock_minimo }}</td>
+
+            <td>
+                {% if p.cantidad == 0 %}
+                    <span class="tag critico">Crítico</span>
+                {% elif p.cantidad < p.stock_minimo %}
+                    <span class="tag bajo">Bajo</span>
+                {% else %}
+                    <span class="tag ok">OK</span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if p.cantidad == 0 %}
+                    <span class="status red">Crítico</span>
+                {% elif p.cantidad <= p.stock_minimo %}
+                    <span class="status yellow">Bajo</span>
+                {% else %}
+                    <span class="status green">Normal</span>
+                {% endif %}
+            </td>
+
+            <td>{{ p.fecha_ingreso|date:"Y-m-d" }}</td>
+
+            <td>
+                <a href="{% url 'invenzo:reponer_stock' p.id %}" class="btn-reponer">
+                    <i data-lucide="plus"></i> Reponer
+                </a>
+            </td>
+
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="8" class="empty">No hay productos en alerta.</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+</section>
+
+<script>
+    lucide.createIcons()
+</script>
+
+{% endblock %}

@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Usuarios{% endblock %}
+{% block header_title %}Usuarios{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'usuarios.css' %}">
+
+<section class="header-section">
+    <h1>Gestión de Usuarios</h1>
+    <p>Administra los usuarios y permisos</p>
+
+    <!-- Abrir modal crear -->
+    <label for="modal-crear-usuario" class="btn-primary">
+        <i data-lucide="user-plus"></i> Nuevo Usuario
+    </label>
+</section>
+
+<section class="filters-section">
+    <form method="GET" class="filters-form">
+        <div class="search-input">
+            <i data-lucide="search"></i>
+            <input type="text" name="search" placeholder="Buscar nombre o correo..." value="{{ query.search }}">
+        </div>
+
+        <select name="rol" class="filter-select">
+            <option value="">Todos los roles</option>
+            <option value="administrador" {% if query.rol == "administrador" %}selected{% endif %}>Administrador</option>
+            <option value="auxiliar" {% if query.rol == "auxiliar" %}selected{% endif %}>Auxiliar</option>
+        </select>
+
+        <select name="estado" class="filter-select">
+            <option value="">Todos</option>
+            <option value="activo" {% if query.estado == "activo" %}selected{% endif %}>Activo</option>
+            <option value="inactivo" {% if query.estado == "inactivo" %}selected{% endif %}>Inactivo</option>
+        </select>
+
+        <button class="btn-secondary" type="submit"><i data-lucide="filter"></i> Filtrar</button>
+    </form>
+</section>
+
+<section class="users-table">
+    <table>
+        <thead>
+            <tr>
+                <th>USUARIO</th>
+                <th>CORREO</th>
+                <th>ROL</th>
+                <th>ESTADO</th>
+                <th>CREADO</th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for u in usuarios %}
+            <tr>
+                <td class="user-cell">
+                    {% if u.foto %}
+                        <img src="{{ u.foto.url }}" alt="{{ u.nombre }}">
+                    {% else %}
+                        <i data-lucide="user-circle" class="avatar-icon"></i>
+                    {% endif %}
+                    <div class="user-info">
+                        <div class="name">{{ u.nombre }}</div>
+                        <div class="small">{{ u.email }}</div>
+                    </div>
+                </td>
+
+                <td>{{ u.email }}</td>
+                <td>{{ u.get_rol_display }}</td>
+                <td>
+                    {% if u.estado == 'activo' %}
+                        <span class="status active">Activo</span>
+                    {% else %}
+                        <span class="status inactive">Inactivo</span>
+                    {% endif %}
+                </td>
+                <td>{{ u.fecha_creacion|date:"d/m/Y" }}</td>
+                <td class="actions">
+
+                    <label for="modal-editar-{{ u.id }}" class="btn-edit" title="Editar">
+                        <i data-lucide="edit-2"></i>
+                    </label>
+
+                    <label for="modal-reset-{{ u.id }}" class="btn-reset" title="Reset contraseña">
+                        <i data-lucide="key"></i>
+                    </label>
+
+                    {% if u.estado == 'activo' %}
+                        <a href="{% url 'invenzo:desactivar_usuario' u.id %}" class="btn-deactivate" title="Desactivar">
+                            <i data-lucide="user-x"></i>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'invenzo:activar_usuario' u.id %}" class="btn-activate" title="Activar">
+                            <i data-lucide="user-check"></i>
+                        </a>
+                    {% endif %}
+
+                    <!-- MODAL EDITAR -->
+                    <input type="checkbox" id="modal-editar-{{ u.id }}" class="modal-toggle">
+                    <div class="modal-backdrop">
+                        <div class="modal-window">
+                            <label for="modal-editar-{{ u.id }}" class="modal-close">&times;</label>
+                            <h2>Editar Usuario</h2>
+
+                            <form method="POST" enctype="multipart/form-data" action="{% url 'invenzo:editar_usuario' u.id %}">
+                                {% csrf_token %}
+                                <label>Nombre</label>
+                                <input type="text" name="nombre" value="{{ u.nombre }}" required>
+
+                                <label>Correo</label>
+                                <input type="email" name="email" value="{{ u.email }}" required>
+
+                                <label>Rol</label>
+                                <select name="rol">
+                                    <option value="administrador" {% if u.rol == 'administrador' %}selected{% endif %}>Administrador</option>
+                                    <option value="auxiliar" {% if u.rol == 'auxiliar' %}selected{% endif %}>Auxiliar</option>
+                                </select>
+
+                                <label>Foto</label>
+                                <input type="file" name="foto" accept="image/*">
+
+                                <label>Estado</label>
+                                <select name="estado">
+                                    <option value="activo" {% if u.estado == 'activo' %}selected{% endif %}>Activo</option>
+                                    <option value="inactivo" {% if u.estado == 'inactivo' %}selected{% endif %}>Inactivo</option>
+                                </select>
+
+                                <div class="modal-actions">
+                                    <label for="modal-editar-{{ u.id }}" class="btn-cancel">Cancelar</label>
+                                    <button type="submit" class="btn-confirm">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- MODAL RESET -->
+                    <input type="checkbox" id="modal-reset-{{ u.id }}" class="modal-toggle">
+                    <div class="modal-backdrop">
+                        <div class="modal-window">
+                            <label for="modal-reset-{{ u.id }}" class="modal-close">&times;</label>
+                            <h2>Restablecer contraseña</h2>
+                            <form method="POST" action="{% url 'invenzo:reset_password' u.id %}">
+                                {% csrf_token %}
+                                <label>Nueva contraseña</label>
+                                <input type="password" name="password" required>
+
+                                <div class="modal-actions">
+                                    <label for="modal-reset-{{ u.id }}" class="btn-cancel">Cancelar</label>
+                                    <button type="submit" class="btn-confirm">Reestablecer</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="6" class="empty">No hay usuarios registrados.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<!-- MODAL CREAR -->
+<input type="checkbox" id="modal-crear-usuario" class="modal-toggle">
+<div class="modal-backdrop">
+    <div class="modal-window">
+        <label for="modal-crear-usuario" class="modal-close">&times;</label>
+        <h2>Nuevo Usuario</h2>
+
+        <form method="POST" enctype="multipart/form-data" action="{% url 'invenzo:crear_usuario' %}">
+            {% csrf_token %}
+            <label>Nombre</label>
+            <input type="text" name="nombre" required>
+
+            <label>Correo</label>
+            <input type="email" name="email" required>
+
+            <label>Contraseña</label>
+            <input type="password" name="password" required>
+
+            <label>Confirmar contraseña</label>
+            <input type="password" name="confirm_password" required>
+
+            <label>Rol</label>
+            <select name="rol">
+                <option value="administrador">Administrador</option>
+                <option value="auxiliar" selected>Auxiliar</option>
+            </select>
+
+            <label>Foto</label>
+            <input type="file" name="foto" accept="image/*">
+
+            <div class="modal-actions">
+                <label for="modal-crear-usuario" class="btn-cancel">Cancelar</label>
+                <button type="submit" class="btn-confirm">Crear usuario</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>lucide.createIcons()</script>
+
+{% endblock %}

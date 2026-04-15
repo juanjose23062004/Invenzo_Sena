@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Configuración{% endblock %}
+{% block header_title %}Configuración{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/configuracion.css' %}">
+
+<div class="config-container">
+
+    <a href="{% url 'invenzo:configuracion_perfil' %}" class="btn-secondary">
+        <div class="config-card">
+            
+            <i data-lucide="user-cog"></i>
+            <h3>Perfil</h3>
+            <p>Administra tu información personal</p>
+            <P class="admin">Editar Perfil</P>
+        </div>
+    </a>
+    {% if request.session.usuario_rol == "administrador" %}
+        <a href="{% url 'invenzo:configuracion_sistema' %}" class="btn-secondary">
+            <div class="config-card">
+                <i data-lucide="settings-2"></i>
+                <h3>Sistema</h3>
+                <p>Configuraciones generales del sistema</p>
+                <p class="admin">Administrar Sistema</p>
+            </div>
+        </a>
+    {% else %}
+            <div class="config-card">
+                <i data-lucide="settings-2"></i>
+                <h3>Sistema</h3>
+                <p>Configuraciones generales del sistema</p>
+                <span class="badge">Solo Administradores</span>
+            </div>
+    {% endif %}
+
+
+    <a href="{% url 'invenzo:configuracion_notificaciones' %}" class="btn-secondary">
+        <div class="config-card">
+            <i data-lucide="bell"></i>
+            <h3>Notificaciones</h3>
+            <p>Controla alertas y sonidos del sistema</p>
+            <p class="admin">Notificaciones</p>
+
+        </div>
+    </a>
+
+</div>
+
+{% endblock %}

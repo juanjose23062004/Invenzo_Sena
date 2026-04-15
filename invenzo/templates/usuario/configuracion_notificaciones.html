@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Configuración de Notificaciones{% endblock %}
+{% block header_title %}Notificaciones{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/configuracion.css' %}">
+
+<div class="config-wrapper">
+
+    <div class="perfil-card">
+        <h3><i data-lucide="bell"></i> Notificaciones del Sistema</h3>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label class="switch-row">
+                <span><i data-lucide="bell-ring"></i> Alertas de Stock</span>
+                <input type="checkbox" name="alertas_stock" {% if config.alertas_stock %}checked{% endif %}>
+            </label>
+
+            <label class="switch-row">
+                <span><i data-lucide="clipboard-list"></i> Movimientos de Inventario</span>
+                <input type="checkbox" name="movimientos" {% if config.movimientos %}checked{% endif %}>
+            </label>
+
+            <label class="switch-row">
+                <span><i data-lucide="package-plus"></i> Productos Nuevos</span>
+                <input type="checkbox" name="productos_nuevos" {% if config.productos_nuevos %}checked{% endif %}>
+            </label>
+
+            <hr>
+
+            <h3><i data-lucide="mail"></i> Notificaciones por Email</h3>
+
+            <label class="switch-row">
+                <span><i data-lucide="alert-circle"></i> Alertas de stock por correo</span>
+                <input type="checkbox" name="correo_alertas" {% if config.correo_alertas %}checked{% endif %}>
+            </label>
+
+            <label class="switch-row">
+                <span><i data-lucide="badge-check"></i> Movimientos por correo</span>
+                <input type="checkbox" name="correo_movimientos" {% if config.correo_movimientos %}checked{% endif %}>
+            </label>
+
+            <button type="submit" class="btn-primary">Guardar Cambios</button>
+        </form>
+    </div>
+
+</div>
+
+<script>
+    lucide.createIcons();
+</script>
+
+{% endblock %}
