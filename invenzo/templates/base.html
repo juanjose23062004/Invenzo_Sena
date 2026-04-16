@@ -48,10 +48,12 @@
             <i data-lucide="replace"></i> Control de Inventario
         </a>
 
-        <a href="{% url 'invenzo:categorias' %}"
-            class="menu-item {% if request.resolver_match.url_name == 'categorias' %}active{% endif %}">
-            <i data-lucide="tags"></i> Categorías
-        </a>
+        {% if request.session.usuario_rol == "administrador" %}
+            <a href="{% url 'invenzo:categorias' %}"
+                class="menu-item {% if request.resolver_match.url_name == 'categorias' %}active{% endif %}">
+                <i data-lucide="tags"></i> Categorías
+            </a>
+        {% endif %}
 
         <a href="{% url 'invenzo:historial' %}"
             class="menu-item {% if request.resolver_match.url_name == 'historial' %}active{% endif %}">
@@ -63,14 +65,15 @@
             <i data-lucide="alert-triangle"></i> Alertas de Stock
         </a>
         <a href="{% url 'invenzo:lista_almacenes' %}"
-            class="menu-item {% if request.resolver_match.url_name == 'almacenes' %}active{% endif %}">
+            class="menu-item {% if request.resolver_match.url_name == 'lista_almacenes' %}active{% endif %}">
             <i data-lucide="warehouse"></i> Almacenes
         </a>
+        {% if request.session.usuario_rol == "administrador" %}
         <a href="{% url 'invenzo:usuarios' %}"
             class="menu-item {% if request.resolver_match.url_name == 'usuarios' %}active{% endif %}">
             <i data-lucide="users"></i> Usuarios
         </a>
-
+        {% endif %}
         <a href="{% url 'invenzo:configuracion' %}"
             class="menu-item {% if request.resolver_match.url_name == 'configuracion' %}active{% endif %}">
             <i data-lucide="settings"></i> Configuración

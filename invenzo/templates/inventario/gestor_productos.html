@@ -13,11 +13,6 @@
 <section class="header-section">
     <h1>Gestión de Productos</h1>
     <p>Administra tu catálogo de productos</p>
-
-    <!-- BOTÓN QUE ABRE EL MODAL -->
-    <label for="modal-categoria" class="btn-primary">
-        <i class="fas fa-plus"></i> Nueva Categoría
-    </label>
 </section>
 
 <section class="filters-section">
@@ -183,38 +178,5 @@
         <span>Mostrando {{ productos.count }} productos</span>
     {% endif %}
 </section>
-
-<!-- ====================== -->
-<!-- MODAL NUEVA CATEGORÍA -->
-<!-- ====================== -->
-<input type="checkbox" id="modal-categoria" class="modal-toggle" />
-
-<div class="modal">
-    <div class="modal-box">
-        <!-- BOTÓN CERRAR -->
-        <label for="modal-categoria" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">&times;</label>
-
-        <h2 class="text-xl font-bold mb-4">Nueva Categoría</h2>
-
-        <form method="POST" action="{% url 'invenzo:crear_categoria' %}">
-            {% csrf_token %}
-
-            <label class="block font-semibold">Nombre de Categoría</label>
-            <input type="text" name="nombre" required class="input input-bordered w-full mb-3">
-
-            <label class="block font-semibold">Descripción</label>
-            <textarea name="descripcion" rows="3" class="textarea textarea-bordered w-full mb-4"></textarea>
-
-            <div class="modal-action">
-                <label for="modal-categoria" class="btn btn-outline">Cancelar</label>
-                <button type="submit" class="btn btn-primary">Guardar</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<script>
-    lucide.createIcons();
-</script>
 
 {% endblock %}

@@ -7,9 +7,11 @@
 <div class="header-flex">
     <h2>Almacenes</h2>
 
+    {% if request.session.usuario_rol == "administrador" %}
     <button class="btn-primario" onclick="openModal()">
         + Agregar Almacén
     </button>
+    {% endif %}
 </div>
 
 <table class="tabla">
@@ -19,8 +21,10 @@
             <th>Capacidad</th>
             <th>Disponible</th>
             <th>Tipo</th>
-            <!-- <th>Nivel de Seguridad</th> -->
+            <th>Nivel de Seguridad</th>
+            {% if request.session.usuario_rol == "administrador" %}
             <th>Aciones</th>
+            {% endif %}
         </tr>
     </thead>
 
@@ -31,7 +35,8 @@
             <td>{{ a.Capacidad }}</td>
             <td>{{ a.disponible }}</td>
             <td>{{ a.Tipo }}</td>
-            <!-- <td>{{ a.Nivel_seguridad }}</td> -->
+            <td>{{ a.Nivel_seguridad }}</td>
+            {% if request.session.usuario_rol == "administrador" %}
             <td class="actions-cell">
                 <!-- EDITAR -->
                 <a href="{% url 'invenzo:editar_almacen' a.id %}" class="action-icon edit-icon">
@@ -70,8 +75,8 @@
                     
                     </div>
                </div>
-
             </td>
+            {% endif %}
             
         </tr>
 

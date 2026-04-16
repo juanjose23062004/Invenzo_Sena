@@ -15,7 +15,6 @@
         <h1>Invenzo</h1>
         <p class="subtitulo">Gestión inteligente de inventarios</p>
         <h2>Crear una cuenta</h2>
-
         <form method="post">
             {% csrf_token %}
 
@@ -26,32 +25,21 @@
 
             <div class="input-icon">
                 <i data-lucide="mail"></i>
-                <input type="email" name="{{ form.email.name }}" placeholder="correo@ejemplo.com" required>
+                <input type="email" name="email" placeholder="correo@ejemplo.com" required>
             </div>
 
             <div class="input-icon">
                 <i data-lucide="lock"></i>
-                <input type="password" name="{{ form.contraseña.name }}" placeholder="Contraseña" required>
+                <input type="password" name="contraseña" placeholder="Contraseña" required>
             </div>
 
             <div class="input-icon">
                 <i data-lucide="lock-keyhole"></i>
-                <input type="password" name="{{ form.confirm.name }}" placeholder="Repite la contraseña" required>
+                <input type="password" name="confirm" placeholder="Repite la contraseña" required>
             </div>
-
-            <!-- Campo de rol -->
-            <div class="input-icono">
-                <i data-lucide="user-check"></i>
-                <select name="rol" required>
-                    <option value="" disabled selected>Selecciona tu rol</option>
-                    <option value="auxiliar">Auxiliar</option>
-                    <option value="administrador">Administrador</option>
-                </select>
-            </div>
-            
 
             <label class="checkbox">
-                <input type="checkbox" name="terminos" class="acepto" required>
+                <input type="checkbox" name="terminos" required>
                 <p>Acepto los Términos y Política de Privacidad</p>
             </label>
 

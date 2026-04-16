@@ -55,7 +55,7 @@ class Almacen(models.Model):
     Nombre = models.CharField(max_length=50)
     Capacidad = models.PositiveIntegerField(default=0)
     Tipo = models.ForeignKey(Categoria, on_delete=models.CASCADE)
-    # Nivel_seguridad = models.CharField(max_length=30, blank=True, null=True)
+    Nivel_seguridad = models.CharField(max_length=30, blank=True, null=True)
 
     def __str__(self):
         return self.Nombre

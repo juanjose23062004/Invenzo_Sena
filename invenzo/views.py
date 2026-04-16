@@ -8,6 +8,8 @@ from .forms import FormularioRegistro, ProductoForm, CategoriaForm, UsuarioCreat
 from datetime import datetime
 import csv
 from django.http import HttpResponse
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password
 
 # ================================
 # DECORADOR PARA PROTEGER RUTAS
@@ -16,6 +18,17 @@ def require_login(view):
     def wrapper(request, *args, **kwargs):
         if "usuario_id" not in request.session:
             return redirect("invenzo:iniciar_sesion")
+        return view(request, *args, **kwargs)
+    return wrapper
+#================================
+#ACCESOS PARA EL ADMINISTRADOR
+#================================
+def require_admin(view):
+    def wrapper(request, *args, **kwargs):
+        if "usuario_id" not in request.session:
+            return redirect('invenzo:iniciar_sesion')
+        if request.session.get('usuario_rol') != 'administrador':
+            return redirect('invenzo:dashboard')
         return view(request, *args, **kwargs)
     return wrapper
 
@@ -45,8 +58,8 @@ def registrar_usuario(request):
             Usuario.objects.create(
                 nombre=form.cleaned_data['nombre'],
                 email=email,
-                password=form.cleaned_data['contraseña'],
-                rol=form.cleaned_data['rol'],  # ← aquí usamos el valor del form
+                password=make_password(form.cleaned_data['contraseña']),
+                rol="auxiliar",  # ✅ FORZADO
                 estado="activo"
             )
 
@@ -61,6 +74,7 @@ def registrar_usuario(request):
 # ================================
 # LOGIN
 # ================================
+
 def iniciar_sesion(request):
     error = ''
 
@@ -69,7 +83,10 @@ def iniciar_sesion(request):
         password = request.POST.get('contraseña')
 
         try:
-            usuario = Usuario.objects.get(email=email, password=password)
+            usuario = Usuario.objects.get(email=email)
+
+            if not check_password(password, usuario.password):
+                raise Usuario.DoesNotExist
 
             if usuario.estado != "activo":
                 error = "Tu cuenta está desactivada."
@@ -86,7 +103,6 @@ def iniciar_sesion(request):
             error = "Correo o contraseña incorrectos"
 
     return render(request, 'usuario/login.html', {'error': error})
-
 
 
 # ================================
@@ -183,29 +199,33 @@ def agregar_producto(request):
             producto = form.save(commit=False)
             almacen = producto.almacen
 
-            # SUMA actual de productos en ese almacén
-            capacidad_ocupada = Producto.objects.filter(almacen=almacen).aggregate(
-                total=Sum('cantidad')
-            )['total'] or 0
+            capacidad_ocupada = Producto.objects.filter(
+                almacen=almacen
+            ).aggregate(total=Sum('cantidad'))['total'] or 0
 
-            # Capacidad restante
             disponible = almacen.Capacidad - capacidad_ocupada
 
-            # Validación
             if producto.cantidad > disponible:
-                messages.error(request, f"El almacén '{almacen.Nombre}' no tiene suficiente espacio. Disponible: {disponible}.")
+                messages.error(
+                    request,
+                    f"El almacén '{almacen.Nombre}' no tiene suficiente espacio. Disponible: {disponible}."
+                )
                 return redirect("invenzo:dashboard")
 
-            # Guardar producto
+            # ✅ Guardar producto
             producto.save()
-            messages.success(request, "Producto agregado con éxito.")
+
+            # ✅ GUARDAR EN STOCK POR ALMACÉN (ESTO TE FALTABA)
+            StockAlmacen.objects.create(
+                producto=producto,
+                almacen=almacen,
+                cantidad=producto.cantidad
+            )
+
+            messages.success(request, "Producto agregado correctamente.")
             return redirect("invenzo:dashboard")
-    
-    else:
-        form = ProductoForm()
 
     return redirect("invenzo:dashboard")
-
 
 # ================================
 # EDITAR PRODUCTO
@@ -276,7 +296,7 @@ def registrar_movimiento(request, id):
 # CATEGORIAS
 # ================================
 
-@require_login
+@require_admin
 def categorias(request):
     search = request.GET.get("search", "")
 
@@ -290,7 +310,7 @@ def categorias(request):
     })
 
 
-@require_login
+@require_admin
 def crear_categoria(request):
     if request.method == "POST":
         nombre = request.POST.get("nombre")
@@ -305,7 +325,7 @@ def crear_categoria(request):
     return redirect("invenzo:categorias")
 
 
-@require_login
+@require_admin
 def editar_categoria(request, id):
     categoria = get_object_or_404(Categoria, id=id)
 
@@ -318,7 +338,7 @@ def editar_categoria(request, id):
     return redirect("invenzo:categorias")
 
 
-@require_login
+@require_admin
 def eliminar_categoria(request, id):
     categoria = get_object_or_404(Categoria, id=id)
     categoria.delete()
@@ -518,14 +538,6 @@ def reponer_stock(request, id):
 
 
 # Helper: comprobar rol admin
-def require_admin(view):
-    def wrapper(request, *args, **kwargs):
-        if "usuario_id" not in request.session:
-            return redirect('invenzo:iniciar_sesion')
-        if request.session.get('usuario_rol') != 'administrador':
-            return redirect('invenzo:dashboard')
-        return view(request, *args, **kwargs)
-    return wrapper
 
 @require_admin
 def usuarios(request):
@@ -566,6 +578,8 @@ def crear_usuario(request):
         form = UsuarioCreateForm(request.POST, request.FILES)
         if form.is_valid():
             u = form.save(commit=False)
+            u.password = make_password(u.password)
+            u.save()
             # Guardamos password tal cual para mantener compatibilidad con login actual.
             # (Si luego quieres hashing, actualizamos login.)
             u.save()
@@ -574,18 +588,32 @@ def crear_usuario(request):
         form = UsuarioCreateForm()
     return render(request, 'usuario/crear_usuario.html', {'form': form})
 
-
 @require_admin
 def editar_usuario(request, id):
     usuario = get_object_or_404(Usuario, id=id)
+
+    es_admin = request.session.get('usuario_rol') == 'administrador'
+
     if request.method == 'POST':
-        form = UsuarioEditForm(request.POST, request.FILES, instance=usuario)
+        form = UsuarioEditForm(
+            request.POST,
+            request.FILES,
+            instance=usuario,
+            es_admin=es_admin   # 🔥 IMPORTANTE
+        )
         if form.is_valid():
             form.save()
             return redirect('invenzo:usuarios')
     else:
-        form = UsuarioEditForm(instance=usuario)
-    return render(request, 'usuario/editar_usuario.html', {'form': form, 'usuario': usuario})
+        form = UsuarioEditForm(
+            instance=usuario,
+            es_admin=es_admin   # 🔥 IMPORTANTE
+        )
+
+    return render(request, 'usuario/editar_usuario.html', {
+        'form': form,
+        'usuario': usuario
+    })
 
 
 @require_admin
@@ -609,7 +637,7 @@ def reset_password(request, id):
     usuario = get_object_or_404(Usuario, id=id)
     if request.method == 'POST':
         nueva = request.POST.get('password')
-        usuario.password = nueva
+        usuario.password = make_password(nueva)
         usuario.save()
         return redirect('invenzo:usuarios')
     return render(request, 'usuario/reset_password.html', {'usuario': usuario})
@@ -637,7 +665,7 @@ def configuracion_perfil(request):
         # CONTRASEÑA
         nueva_pass = request.POST.get("password")
         if nueva_pass:
-            usuario.password = nueva_pass
+            usuario.password = make_password(nueva_pass)
 
         usuario.save()
 
@@ -731,7 +759,7 @@ def lista_almacenes(request):
         "categorias": categorias
     })
 
-@require_login
+@require_admin
 def crear_almacen(request):
     if request.method == "POST":
 
@@ -756,7 +784,7 @@ def crear_almacen(request):
     })
 
 
-@require_login
+@require_admin
 def editar_almacen(request, id):
     almacen = get_object_or_404(Almacen, id=id)
 
@@ -777,7 +805,7 @@ def editar_almacen(request, id):
         "categorias": categorias
     })
 
-@require_login
+@require_admin
 def eliminar_almacen(request, id):
     almacen = get_object_or_404(Almacen, id=id)
     almacen.delete()

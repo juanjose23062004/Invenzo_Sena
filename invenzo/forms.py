@@ -32,14 +32,11 @@ class FormularioRegistro(forms.Form):
     email = forms.EmailField()
     contraseña = forms.CharField(widget=forms.PasswordInput)
     confirm = forms.CharField(widget=forms.PasswordInput)
-    rol = forms.ChoiceField(choices=ROL_CHOICES, initial='auxiliar')  # ← nuevo campo
 
     def clean(self):
         datos = self.cleaned_data
         if datos.get('contraseña') != datos.get('confirm'):
             self.add_error('confirm', 'Las contraseñas no coinciden.')
-
-
 
 class CategoriaForm(forms.Form):
     nombre = forms.CharField(
@@ -81,3 +78,10 @@ class UsuarioEditForm(forms.ModelForm):
     class Meta:
         model = Usuario
         fields = ['nombre', 'email', 'rol', 'foto', 'estado']
+
+    def __init__(self, *args, **kwargs):
+        es_admin = kwargs.pop('es_admin', False)
+        super().__init__(*args, **kwargs)
+
+        if not es_admin:
+            self.fields.pop('rol')  # 🔥 elimina el campo

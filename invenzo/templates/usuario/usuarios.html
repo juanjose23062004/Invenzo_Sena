@@ -79,13 +79,13 @@
                 <td>{{ u.fecha_creacion|date:"d/m/Y" }}</td>
                 <td class="actions">
 
-                    <label for="modal-editar-{{ u.id }}" class="btn-edit" title="Editar">
+                    <button type="button" class="btn-edit" onclick="abrirModal('modal-editar-{{ u.id }}')">
                         <i data-lucide="edit-2"></i>
-                    </label>
+                    </button>
 
-                    <label for="modal-reset-{{ u.id }}" class="btn-reset" title="Reset contraseña">
+                    <button type="button" class="btn-reset" onclick="abrirModal('modal-reset-{{ u.id }}')">
                         <i data-lucide="key"></i>
-                    </label>
+                    </button>
 
                     {% if u.estado == 'activo' %}
                         <a href="{% url 'invenzo:desactivar_usuario' u.id %}" class="btn-deactivate" title="Desactivar">
@@ -98,61 +98,65 @@
                     {% endif %}
 
                     <!-- MODAL EDITAR -->
-                    <input type="checkbox" id="modal-editar-{{ u.id }}" class="modal-toggle">
-                    <div class="modal-backdrop">
-                        <div class="modal-window">
-                            <label for="modal-editar-{{ u.id }}" class="modal-close">&times;</label>
-                            <h2>Editar Usuario</h2>
-
-                            <form method="POST" enctype="multipart/form-data" action="{% url 'invenzo:editar_usuario' u.id %}">
-                                {% csrf_token %}
-                                <label>Nombre</label>
-                                <input type="text" name="nombre" value="{{ u.nombre }}" required>
-
-                                <label>Correo</label>
-                                <input type="email" name="email" value="{{ u.email }}" required>
-
-                                <label>Rol</label>
-                                <select name="rol">
-                                    <option value="administrador" {% if u.rol == 'administrador' %}selected{% endif %}>Administrador</option>
-                                    <option value="auxiliar" {% if u.rol == 'auxiliar' %}selected{% endif %}>Auxiliar</option>
-                                </select>
-
-                                <label>Foto</label>
-                                <input type="file" name="foto" accept="image/*">
-
-                                <label>Estado</label>
-                                <select name="estado">
-                                    <option value="activo" {% if u.estado == 'activo' %}selected{% endif %}>Activo</option>
-                                    <option value="inactivo" {% if u.estado == 'inactivo' %}selected{% endif %}>Inactivo</option>
-                                </select>
-
-                                <div class="modal-actions">
-                                    <label for="modal-editar-{{ u.id }}" class="btn-cancel">Cancelar</label>
-                                    <button type="submit" class="btn-confirm">Guardar</button>
-                                </div>
-                            </form>
-                        </div>
+                    <div>
+                        <input type="checkbox" id="modal-editar-{{ u.id }}" class="modal-toggle">
+                        <div class="modal-backdrop">
+                            <div class="modal-window">
+                                <label for="modal-editar-{{ u.id }}" class="modal-close">&times;</label>
+                                <h2>Editar Usuario</h2>
+    
+                                <form method="POST" enctype="multipart/form-data" action="{% url 'invenzo:editar_usuario' u.id %}">
+                                    {% csrf_token %}
+                                    <label>Nombre</label>
+                                    <input type="text" name="nombre" value="{{ u.nombre }}" required>
+    
+                                    <label>Correo</label>
+                                    <input type="email" name="email" value="{{ u.email }}" required>
+    
+                                    <label>Rol</label>
+                                    <select name="rol">
+                                        <option value="administrador" {% if u.rol == 'administrador' %}selected{% endif %}>Administrador</option>
+                                        <option value="auxiliar" {% if u.rol == 'auxiliar' %}selected{% endif %}>Auxiliar</option>
+                                    </select>
+    
+                                    <label>Foto</label>
+                                    <input type="file" name="foto" accept="image/*">
+    
+                                    <label>Estado</label>
+                                    <select name="estado">
+                                        <option value="activo" {% if u.estado == 'activo' %}selected{% endif %}>Activo</option>
+                                        <option value="inactivo" {% if u.estado == 'inactivo' %}selected{% endif %}>Inactivo</option>
+                                    </select>
+    
+                                    <div class="modal-actions">
+                                        <label for="modal-editar-{{ u.id }}" class="btn-cancel">Cancelar</label>
+                                        <button type="submit" class="btn-confirm">Guardar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div> 
                     </div>
 
                     <!-- MODAL RESET -->
-                    <input type="checkbox" id="modal-reset-{{ u.id }}" class="modal-toggle">
-                    <div class="modal-backdrop">
-                        <div class="modal-window">
-                            <label for="modal-reset-{{ u.id }}" class="modal-close">&times;</label>
-                            <h2>Restablecer contraseña</h2>
-                            <form method="POST" action="{% url 'invenzo:reset_password' u.id %}">
-                                {% csrf_token %}
-                                <label>Nueva contraseña</label>
-                                <input type="password" name="password" required>
-
-                                <div class="modal-actions">
-                                    <label for="modal-reset-{{ u.id }}" class="btn-cancel">Cancelar</label>
-                                    <button type="submit" class="btn-confirm">Reestablecer</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                     <div>
+                         <input type="checkbox" id="modal-reset-{{ u.id }}" class="modal-toggle">
+                         <div class="modal-backdrop">
+                             <div class="modal-window">
+                                 <button type="button" class="modal-close"onclick="document.getElementById('modal-reset-{{ u.id }}').checked = false"> &times;</button>
+                                 <h2>Restablecer contraseña</h2>
+                                 <form method="POST" action="{% url 'invenzo:reset_password' u.id %}">
+                                     {% csrf_token %}
+                                     <label>Nueva contraseña</label>
+                                     <input type="password" name="password" required>
+     
+                                     <div class="modal-actions">
+                                         <label for="modal-reset-{{ u.id }}" class="btn-cancel">Cancelar</label>
+                                         <button type="submit" class="btn-confirm">Reestablecer</button>
+                                     </div>
+                                 </form>
+                             </div>
+                         </div>
+                     </div>
 
                 </td>
             </tr>
@@ -202,5 +206,14 @@
 </div>
 
 <script>lucide.createIcons()</script>
+<script>
+function abrirModal(id) {
+    // Cierra TODOS los modales
+    document.querySelectorAll('.modal-toggle').forEach(m => m.checked = false);
+
+    // Abre solo el que quieres
+    document.getElementById(id).checked = true;
+}
+</script>
 
 {% endblock %}
